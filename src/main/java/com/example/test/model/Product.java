@@ -1,4 +1,4 @@
-package com.example.model;
+package com.example.test.model;
 
 import javax.persistence.*;
 
@@ -8,9 +8,9 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private int quantity;
-    private int discount;
-    private double price;
+    private Integer quantity;
+    private Integer discount;
+    private Double price;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -23,7 +23,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, int quantity, int discount, double price, Category category, String description, String image, Seller seller) {
+    public Product(String name, Integer quantity, Integer discount, Double price, Category category, String description, String image, Seller seller) {
         this.name = name;
         this.quantity = quantity;
         this.discount = discount;
@@ -50,27 +50,27 @@ public class Product {
         this.name = name;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public int getDiscount() {
+    public Integer getDiscount() {
         return discount;
     }
 
-    public void setDiscount(int discount) {
+    public void setDiscount(Integer discount) {
         this.discount = discount;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

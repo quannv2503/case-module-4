@@ -1,4 +1,4 @@
-package com.example.model;
+package com.example.test.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +10,7 @@ public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String address;
     private String phoneNumber;

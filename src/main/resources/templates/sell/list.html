@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<link rel="stylesheet" href="../../static/css/sell/list.css">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<!--phần đầu-->
+<nav class="navbar navbar-expand-sm bg-light navbar-light sticky-top">
+    <div class="container-fluid" style="position:fixed ;background: #cfc3b7;width:100%; height: 80px">
+        <div class="row" style="width: 100%">
+            <!--    phần ảnh tải lại trang-->
+            <div class="col-sm-1">
+                <a th:href="@{/sell/}">
+                    <img src="/img/sell/logo.jpg" height="60" width="60"></a>
+            </div>
+            <!--        tìm kiếm-->
+            <div class="col-sm-4">
+                <form action="/sell/" style="position: absolute;top: 20px" class="form-inline my-2 my-lg-0">
+                    <input type="text" style="color: hotpink; border: hotpink" class="form-control"
+                           placeholder="Search" aria-label="Search" name="search">
+                    <button type="submit" class="btn btn-outline-danger"><i class="fa fa-search"> Search</i></button>
+                </form>
+            </div>
+            <div class="col-sm-3">.col-sm-3</div>
+            <div class="col-sm-3">.col-sm-3</div>
+            <div class="col-sm-1">
+                <div class="dropdown">
+                    <button type="button" data-toggle="dropdown" id="b">
+                        <img id="a" src="http://hocwebgiare.com/thiet_ke_web_chuan_demo/product/images/1.jpg">
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" id="c">
+
+                        <a class="dropdown-item" href="https://james.codegym.vn/my/"
+                           role="menuitem"><i
+                                class="icon fa fa-tachometer fa-fw iconsmall" aria-hidden="true"
+                                title="Nhà của tôi"></i>Nhà của tôi</a>
+                        <div class="dropdown-divider" role="presentation"></div>
+                        <a class="dropdown-item" href="https://james.codegym.vn/user/profile.php?id=3315"
+                           role="menuitem"><i class="icon fa fa-user fa-fw iconsmall" aria-hidden="true"
+                                              title="Hồ sơ"></i>Hồ sơ</a><a class="dropdown-item"
+                                                                            href="https://james.codegym.vn/grade/report/overview/index.php"
+                                                                            role="menuitem"><i
+                            class="icon fa fa-table fa-fw iconsmall" aria-hidden="true"
+                            title="Điểm"></i>Điểm</a><a class="dropdown-item"
+                                                        href="https://james.codegym.vn/message/index.php"
+                                                        role="menuitem"><i
+                            class="icon fa fa-comment fa-fw iconsmall" aria-hidden="true" title="Tin nhắn"></i>Tin
+                        nhắn</a><a class="dropdown-item" href="https://james.codegym.vn/user/preferences.php"
+                                    role="menuitem"><i class="icon fa fa-wrench fa-fw iconsmall"
+                                                       aria-hidden="true" title="Tuỳ chọn"></i>Tuỳ chọn</a>
+                        <div class="dropdown-divider" role="presentation"></div>
+                        <a class="dropdown-item" href="/sell/logout"
+                           ><i class="icon fa fa-sign-out fa-fw iconsmall" aria-hidden="true"
+                                              title="Thoát"></i>Thoát</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<br>
+<!--theem-->
+
+<h3>
+    <a href="/sell/add-product" data-toggle="modal" data-target="#exampleModalCenter"> Thêm mới sản phẩm</a></h3>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="position: relative;top: 200px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="container">
+                    <form th:action="@{/sell/add-product}" method="post" th:object="${p}" id="usrform1">
+                        <div class="form-group">
+                            <label>Tên sản phẩm</label>
+                            <input type="text" class="form-control" th:field="*{name}" placeholder="Nhập tên sản phẩm">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Giá</label>
+                            <input type="number" class="form-control" th:field="*{price}" placeholder="Nhập giá">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Số lượng</label>
+                            <input type="number" class="form-control" th:field="*{quantity}"
+                                   placeholder="Nhập số lượng">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Giảm giá</label>
+                            <input type="number" class="form-control" th:field="*{discount}"
+                                   placeholder="giảm giá">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Loại</label>
+                            <select th:field="*{category}">
+                                <option th:each="c : ${categorys}" th:value="${c.id}" th:text="${c.name}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Mô tả</label>
+                            <textarea placeholder="Thêm mô tả" class="form-control" th:field="*{description}">
+                          </textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>chọn ảnh</label>
+                            <div>
+                                <input class="input-file" type="file" name="add-file" >
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">ADD</button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <h3> Sản phẩm nổi bật</h3>
+    <div class="well well-sm text-left">
+        <span>
+            <a th:href="@{/sell/}" class="btn btn-small btn-primary" data-toggle="portfilter"
+               data-target="all">Tất cả</a>
+        </span>
+        <span th:each="c:${categorys}">
+            <a th:href="@{/sell/divide/__${c.id}__}" class="btn btn-small btn-primary" data-toggle="portfilter"
+               data-target="all" th:text="${c.name}"> </a>
+        </span>
+    </div>
+    <div id="products" class="row">
+        <div th:each="product:${products}" class="item  col-xs-4 col-lg-3" data-tag="style1"
+             style="height: 485px;width: 260px">
+            <div class="thumbnail"><img class="group list-group-image"
+                                        th:src="@{/img/sell/gai.jpg}"
+                                        alt="Sản phẩm 1" width="300" height="500">
+                <div class="caption">
+                    <!--                    noi dung-->
+                    <div>
+                        <h4 class="group inner list-group-item-heading" th:text="${product.name}"></h4>
+                        <p class="group inner list-group-item-text" th:text="${product.price}"></p>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <button type="button" data-toggle="modal"
+                                    class="btn btn-outline-success" data-target="#exampleModalUpdate${product.id}">Chỉnh
+                                sửa
+                            </button>
+                            <div class="modal fade" id="exampleModalUpdate${product.id}" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document"
+                                     style="position: relative;top: 150px">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div class="container">
+                                                <h2>Chỉnh sửa thông tin</h2>
+                                                <form action="/sell?action=edit" method="post">
+                                                    <label>Tên</label>
+                                                    <input type="text" class="form-control" name="name"
+                                                           value="${product.name}">
+
+                                                    <label>Giá</label>
+                                                    <input type="text" class="form-control" name="price"
+                                                           value="${product.price}">
+
+                                                    <label>Số lượng</label>
+                                                    <input type="text" class="form-control" name="quantity"
+                                                           value="${product.quantity}">
+
+                                                    <label>Giá</label>
+                                                    <input type="text" class="form-control" name="price"
+                                                           value="${product.price}">
+
+                                                    <label>Giảm giá</label>
+                                                    <input type="text" class="form-control" name="discount"
+                                                           value="${product.discount}">
+
+                                                    <label>Loại</label>
+                                                    <select name="type">
+                                                        <option value="quan ao">Quần áo</option>
+                                                        <option value="giay dep">Giầy dép</option>
+                                                        <option value="tui xach">Túi xách</option>
+                                                        <option value="khac">Khác</option>
+                                                    </select>
+                                                    <label>Mô tả</label>
+                                                    <input type="text" class="form-control" name="description"
+                                                           value=" ${product.description}">
+                                                    <label>Link ảnh</label>
+                                                    <input type="text" class="form-control" name="image"
+                                                           value="${product.image}">
+                                                    <div style="display: none">
+                                                        <label>ẩn</label>
+                                                        <input type="text" class="form-control" name="id"
+                                                               value="${product.id}">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="btn btn-primary" value="Update">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" style="position: relative;right: 15px">
+                            <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                                    data-target="#exampleModalUpdate${product.name}">Ngừng bán
+                            </button>
+                            <div class="modal fade" id="exampleModalUpdate${product.name}" tabindex="-1"
+                                 role="dialog"
+                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document"
+                                     style="position: relative;top: 20px">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div class="container">
+                                                <h2>ARE YOU SURE?</h2>
+                                                <form method="post" action="/sell?action=delete">
+                                                    <div style="display: none">
+                                                        <label>ẩn</label>
+                                                        <input type="text" class="form-control" name="id"
+                                                               value="${product.id}">
+                                                    </div>
+
+                                                    <label>Name</label>
+                                                    <input type="text" class="form-control" name="name"
+                                                           value="${product.name}">
+                                                    <label>Price</label>
+                                                    <input type="text" class="form-control" name="price"
+                                                           value="${product.price}">
+
+                                                    <br>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" value="Xóa">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                Đóng
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav aria-label="...">
+    <ul class="pagination" th:unless="${divide_id}">
+        <li th:if="${products.hasPrevious()}" class="page-item">
+            <a class="page-link"
+               th:href="@{'/sell/'(page=${products.number - 1}, search=${search})}"><b>Previous</b></a>
+        </li>
+        <li th:if="${!products.hasPrevious()}" class="page-item disabled">
+            <a class="page-link">Previous</a>
+        </li>
+
+        <li class="page-item active">
+      <span class="page-link" th:text="${products.number + 1}+'/'+${products.totalPages}">
+        <span class="sr-only">(current)</span>
+      </span>
+        </li>
+
+        <li th:if="${products.hasNext()}" class="page-item">
+            <a class="page-link" th:href="@{'/sell/'(page=${products.number + 1},search=${search})}"><b>Next</b></a>
+        </li>
+        <li th:if="${!products.hasNext()}" class="page-item disabled">
+            <a class="page-link">Next</a>
+        </li>
+    </ul>
+    <ul class="pagination" th:if="${divide_id}">
+        <li th:if="${products.hasPrevious()}" class="page-item">
+            <a class="page-link"
+               th:href="@{/sell/divide/{id}/(id=${divide_id},page=${products.number - 1})}"><b>Previous</b></a>
+        </li>
+        <li th:if="${!products.hasPrevious()}" class="page-item disabled">
+            <a class="page-link">Previous</a>
+        </li>
+
+        <li class="page-item active">
+              <span class="page-link" th:text="${products.number + 1}+'/'+${products.totalPages}">
+                <span class="sr-only">(current)</span>
+              </span>
+        </li>
+
+        <li th:if="${products.hasNext()}" class="page-item">
+            <a class="page-link"
+               th:href="@{/sell/divide/{id}/(id=${divide_id},page=${products.number + 1})}"><b>Next</b></a>
+        </li>
+        <li th:if="${!products.hasNext()}" class="page-item disabled">
+            <a class="page-link">Next</a>
+        </li>
+    </ul>
+</nav>
+<footer class="container-fluid text-center">
+    <label>Online Store Copyright</label>
+    <p> CÔNG TY LIÊN DOANH TNHH VIỆT NAM<br>
+        Số 292 Bà Triệu, P. Lê Đại Hành, Q. Hai Bà Trưng, TP. Hà Nội.<br>
+        Điện thoại: (028) 1232456<br>
+        Email: lienhe@lamthon.com.vn<br>
+        Mã số thuế: 0123456789<br>
+        Ngày cấp: 29/10/1998 - Nơi cấp: Cục Thuế Thành Phố Hà Nội
+    </p>
+</footer>
+</body>
+<style>
+    #a {
+        width: 30px;
+        height: 30px;
+        background-size: cover;
+        background-position: top center;
+        border-radius: 50%;
+    }
+
+    #b {
+        position: relative;
+        top: 20px;
+        left: 30px;
+        background-size: cover;
+        background-position: top center;
+        border-radius: 50%;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;
+    }
+
+    .glyphicon {
+        margin-right: 5px;
+    }
+
+    .thumbnail {
+        margin-bottom: 20px;
+        padding: 0px;
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+        border-radius: 0px;
+    }
+
+    .item.list-group-item {
+        float: none;
+        width: 100%;
+        background-color: #fff;
+        margin-bottom: 10px;
+    }
+
+    .item.list-group-item:nth-of-type(odd):hover, .item.list-group-item:hover {
+        background: #428bca;
+    }
+
+    .item.list-group-item .list-group-image {
+        margin-right: 10px;
+    }
+
+    .item.list-group-item .thumbnail {
+        margin-bottom: 0px;
+    }
+
+    .item.list-group-item .caption {
+        padding: 9px 9px 0px 9px;
+    }
+
+    .item.list-group-item:nth-of-type(odd) {
+        background: #eeeeee;
+    }
+
+    .item.list-group-item:before, .item.list-group-item:after {
+        display: table;
+        content: "";
+    }
+
+    .item.list-group-item img {
+        float: left;
+    }
+
+    .item.list-group-item:after {
+        clear: both;
+    }
+
+    .list-group-item-text {
+        margin: 0 0 11px;
+    }
+
+    #c {
+        position: fixed;
+        top: 50px;
+        right: 25px;
+    }
+
+</style>
+</html>
