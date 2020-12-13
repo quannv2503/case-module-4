@@ -1,9 +1,6 @@
 package com.example.test;
 
-import com.example.test.service.CategoryService;
-import com.example.test.service.CategoryServiceImpl;
-import com.example.test.service.ProductService;
-import com.example.test.service.ProductServiceImpl;
+import com.example.test.service.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -23,5 +20,13 @@ public class TestApplication {
     @Bean
     public ProductService serviceProduct() {
         return new ProductServiceImpl();
+    }
+    @Bean
+    public SellerService sellerService(){
+        return new SellerServiceImpl();
+    }
+    @Bean
+    public OrderDetailService orderDetailService(){
+        return new OrderDetailImpl();
     }
 }

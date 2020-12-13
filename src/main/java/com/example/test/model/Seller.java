@@ -14,10 +14,10 @@ public class Seller {
     private String name;
     private String address;
     private String phoneNumber;
-    private String avatar;
+    private String avatar ="avt-default.jpg"; //tạo tài khoản avt này mặc định;
     private String account;
     private String password;
-    private boolean active; // mặc định là true;
+    private String active ="1"; // 1:được phép hoạt động(mặc định)  2:khoá tài khoản;
 
     public Seller() {
     }
@@ -86,11 +86,11 @@ public class Seller {
         this.password = password;
     }
 
-    public boolean isActive() {
+    public String getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(String active) {
         this.active = active;
     }
 }

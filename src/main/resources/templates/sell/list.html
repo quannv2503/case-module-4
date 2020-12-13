@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <html lang="en">
-<link rel="stylesheet" href="../../static/css/sell/list.css">
+<link rel="stylesheet" href="/css/sell/list.css">
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -25,23 +25,30 @@
 </head>
 <body>
 <!--phần đầu-->
-<nav class="navbar navbar-expand-sm bg-light navbar-light sticky-top">
+<nav class="navbar navbar-expand-sm bg-light navbar-light sticky-top" id="quay">
     <div class="container-fluid" style="position:fixed ;background: #cfc3b7;width:100%; height: 80px">
         <div class="row" style="width: 100%">
             <!--    phần ảnh tải lại trang-->
             <div class="col-sm-1">
-                <a th:href="@{/sell/}">
+                <a th:href="@{/sell/home}">
                     <img src="/img/sell/logo.jpg" height="60" width="60"></a>
             </div>
             <!--        tìm kiếm-->
             <div class="col-sm-4">
-                <form action="/sell/" style="position: absolute;top: 20px" class="form-inline my-2 my-lg-0">
+                <form action="/sell/home" style="position: absolute;top: 20px" class="form-inline my-2 my-lg-0">
                     <input type="text" style="color: hotpink; border: hotpink" class="form-control"
-                           placeholder="Search" aria-label="Search" name="search">
-                    <button type="submit" class="btn btn-outline-danger"><i class="fa fa-search"> Search</i></button>
+                           placeholder="Tìm sản phẩm" aria-label="Search" name="search">
+                    <button type="submit" class="btn btn-outline-danger"><i class="fa fa-search">Tìm kiếm</i></button>
                 </form>
             </div>
-            <div class="col-sm-3">.col-sm-3</div>
+            <div class="col-sm-3">
+                <form method="get" action="/sell/order-confirm" style="position: absolute;top: 20px" >
+                    <button type="submit"  class="btn btn-outline-danger" style="border: #B7242A solid 2px">
+                        Xác nhận đơn hàng
+                        <i class="fa fa-shopping-cart"><b style="color:black ;font-size: 150%"> 8</b></i>
+                    </button>
+                </form>
+            </div>
             <div class="col-sm-3">.col-sm-3</div>
             <div class="col-sm-1">
                 <div class="dropdown">
@@ -53,13 +60,13 @@
                         <a class="dropdown-item" href="https://james.codegym.vn/my/"
                            role="menuitem"><i
                                 class="icon fa fa-tachometer fa-fw iconsmall" aria-hidden="true"
-                                title="Nhà của tôi"></i>Nhà của tôi</a>
+                                title="Nhà của tôi"></i>Trang mua hàng</a>
                         <div class="dropdown-divider" role="presentation"></div>
                         <a class="dropdown-item" href="https://james.codegym.vn/user/profile.php?id=3315"
                            role="menuitem"><i class="icon fa fa-user fa-fw iconsmall" aria-hidden="true"
-                                              title="Hồ sơ"></i>Hồ sơ</a><a class="dropdown-item"
-                                                                            href="https://james.codegym.vn/grade/report/overview/index.php"
-                                                                            role="menuitem"><i
+                                              title="Hồ sơ"></i>Thông tin cá nhân</a><a class="dropdown-item"
+                                                                                        href="https://james.codegym.vn/grade/report/overview/index.php"
+                                                                                        role="menuitem"><i
                             class="icon fa fa-table fa-fw iconsmall" aria-hidden="true"
                             title="Điểm"></i>Điểm</a><a class="dropdown-item"
                                                         href="https://james.codegym.vn/message/index.php"
@@ -70,8 +77,8 @@
                                                        aria-hidden="true" title="Tuỳ chọn"></i>Tuỳ chọn</a>
                         <div class="dropdown-divider" role="presentation"></div>
                         <a class="dropdown-item" href="/sell/logout"
-                           ><i class="icon fa fa-sign-out fa-fw iconsmall" aria-hidden="true"
-                                              title="Thoát"></i>Thoát</a>
+                        ><i class="icon fa fa-sign-out fa-fw iconsmall" aria-hidden="true"
+                            title="Thoát"></i>Thoát</a>
                     </div>
                 </div>
             </div>
@@ -82,7 +89,7 @@
 <!--theem-->
 
 <h3>
-    <a href="/sell/add-product" data-toggle="modal" data-target="#exampleModalCenter"> Thêm mới sản phẩm</a></h3>
+    <a href="/sell/add-product" data-toggle="modal" data-target="#exampleModalCenter"> Đăng sản phẩm</a></h3>
 
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -128,7 +135,7 @@
                         <div class="form-group">
                             <label>chọn ảnh</label>
                             <div>
-                                <input class="input-file" type="file" name="add-file" >
+                                <input class="input-file" type="file" name="add-file">
                             </div>
                         </div>
 
@@ -144,10 +151,10 @@
 </div>
 
 <div class="container">
-    <h3> Sản phẩm nổi bật</h3>
+    <h3> Sản phẩm hiện đang bán</h3>
     <div class="well well-sm text-left">
         <span>
-            <a th:href="@{/sell/}" class="btn btn-small btn-primary" data-toggle="portfilter"
+            <a th:href="@{/sell/home}" class="btn btn-small btn-primary" data-toggle="portfilter"
                data-target="all">Tất cả</a>
         </span>
         <span th:each="c:${categorys}">
@@ -167,13 +174,14 @@
                         <h4 class="group inner list-group-item-heading" th:text="${product.name}"></h4>
                         <p class="group inner list-group-item-text" th:text="${product.price}"></p>
                     </div>
+                    <!--                    chỉnh sủa-->
                     <div class="row">
                         <div class="col-lg-6">
                             <button type="button" data-toggle="modal"
-                                    class="btn btn-outline-success" data-target="#exampleModalUpdate${product.id}">Chỉnh
-                                sửa
+                                    class="btn btn-outline-success" th:data-target="'#'+${product.id}"><b>Chỉnh
+                                sửa</b>
                             </button>
-                            <div class="modal fade" id="exampleModalUpdate${product.id}" tabindex="-1" role="dialog"
+                            <div class="modal fade" th:id="${product.id}" tabindex="-1" role="dialog"
                                  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document"
                                      style="position: relative;top: 150px">
@@ -181,44 +189,41 @@
                                         <div class="modal-header">
                                             <div class="container">
                                                 <h2>Chỉnh sửa thông tin</h2>
-                                                <form action="/sell?action=edit" method="post">
+                                                <form action="/sell/edit-product" method="post">
                                                     <label>Tên</label>
                                                     <input type="text" class="form-control" name="name"
-                                                           value="${product.name}">
+                                                           th:value="${product.name}">
 
                                                     <label>Giá</label>
-                                                    <input type="text" class="form-control" name="price"
-                                                           value="${product.price}">
+                                                    <input type="number" class="form-control" name="price"
+                                                           th:value="${product.price}">
 
                                                     <label>Số lượng</label>
-                                                    <input type="text" class="form-control" name="quantity"
-                                                           value="${product.quantity}">
-
-                                                    <label>Giá</label>
-                                                    <input type="text" class="form-control" name="price"
-                                                           value="${product.price}">
+                                                    <input type="number" class="form-control" name="quantity"
+                                                           th:value="${product.quantity}">
 
                                                     <label>Giảm giá</label>
-                                                    <input type="text" class="form-control" name="discount"
-                                                           value="${product.discount}">
+                                                    <input type="number" class="form-control" name="discount"
+                                                           th:value="${product.discount}">
 
                                                     <label>Loại</label>
-                                                    <select name="type">
-                                                        <option value="quan ao">Quần áo</option>
-                                                        <option value="giay dep">Giầy dép</option>
-                                                        <option value="tui xach">Túi xách</option>
-                                                        <option value="khac">Khác</option>
+                                                    <select name="category">
+                                                        <option th:each="c : ${categorys}" th:value="${c.id}"
+                                                                th:text="${c.name}"></option>
                                                     </select>
+                                                    <br>
                                                     <label>Mô tả</label>
-                                                    <input type="text" class="form-control" name="description"
-                                                           value=" ${product.description}">
-                                                    <label>Link ảnh</label>
-                                                    <input type="text" class="form-control" name="image"
-                                                           value="${product.image}">
+                                                    <input type="text" placeholder="Thêm mô tả" class="form-control"
+                                                           name="description"
+                                                           th:value="${product.description}">
+                                                    <label>Chọn ảnh mới</label>
+                                                    <div>
+                                                        <input class="input-file" type="file" name="image">
+                                                    </div>
                                                     <div style="display: none">
                                                         <label>ẩn</label>
                                                         <input type="text" class="form-control" name="id"
-                                                               value="${product.id}">
+                                                               th:value="${product.id}">
                                                     </div>
                                                     <div class="modal-footer">
                                                         <input type="submit" class="btn btn-primary" value="Update">
@@ -232,9 +237,8 @@
                         </div>
                         <div class="col-lg-6" style="position: relative;right: 15px">
                             <button type="button" class="btn btn-outline-success" data-toggle="modal"
-                                    data-target="#exampleModalUpdate${product.name}">Ngừng bán
-                            </button>
-                            <div class="modal fade" id="exampleModalUpdate${product.name}" tabindex="-1"
+                                    th:data-target="'#ab'+${product.id}"><b>Ngừng bán</b></button>
+                            <div class="modal fade" th:id="'ab'+${product.id}" tabindex="-1"
                                  role="dialog"
                                  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document"
@@ -242,24 +246,19 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <div class="container">
-                                                <h2>ARE YOU SURE?</h2>
-                                                <form method="post" action="/sell?action=delete">
+                                                <h2>Bạn đã chắc chứa?</h2>
+                                                <form method="post" action="/sell/delete">
                                                     <div style="display: none">
                                                         <label>ẩn</label>
                                                         <input type="text" class="form-control" name="id"
-                                                               value="${product.id}">
+                                                               th:value="${product.id}">
                                                     </div>
-
-                                                    <label>Name</label>
-                                                    <input type="text" class="form-control" name="name"
-                                                           value="${product.name}">
-                                                    <label>Price</label>
-                                                    <input type="text" class="form-control" name="price"
-                                                           value="${product.price}">
-
+                                                    <p>Tên:<b th:text="${product.name}"></b></p>
+                                                    <p>Giá:<b th:text="${product.price}"></b></p>
+                                                    <p>Thể loại:<b th:text="${product.category.name}"></b></p>
                                                     <br>
                                                     <div class="modal-footer">
-                                                        <input type="submit" value="Xóa">
+                                                        <input type="submit" value="Ngừng bán">
                                                     </div>
                                                 </form>
                                             </div>
@@ -280,149 +279,250 @@
         </div>
     </div>
 </div>
+<div class="center ">
+    <nav aria-label="...">
+        <ul class="pagination" th:unless="${divide_id}">
+            <li th:if="${products.hasPrevious()}" class="page-item">
+                <a class="page-link"
+                   th:href="@{'/sell/home'(page=${products.number - 1}, search=${search})}"><b>Trang trước</b></a>
+            </li>
+            <li th:if="${!products.hasPrevious()}" class="page-item disabled">
+                <a class="page-link">Trang trước</a>
+            </li>
 
-<nav aria-label="...">
-    <ul class="pagination" th:unless="${divide_id}">
-        <li th:if="${products.hasPrevious()}" class="page-item">
-            <a class="page-link"
-               th:href="@{'/sell/'(page=${products.number - 1}, search=${search})}"><b>Previous</b></a>
-        </li>
-        <li th:if="${!products.hasPrevious()}" class="page-item disabled">
-            <a class="page-link">Previous</a>
-        </li>
-
-        <li class="page-item active">
+            <li class="page-item active">
       <span class="page-link" th:text="${products.number + 1}+'/'+${products.totalPages}">
         <span class="sr-only">(current)</span>
       </span>
-        </li>
+            </li>
 
-        <li th:if="${products.hasNext()}" class="page-item">
-            <a class="page-link" th:href="@{'/sell/'(page=${products.number + 1},search=${search})}"><b>Next</b></a>
-        </li>
-        <li th:if="${!products.hasNext()}" class="page-item disabled">
-            <a class="page-link">Next</a>
-        </li>
-    </ul>
-    <ul class="pagination" th:if="${divide_id}">
-        <li th:if="${products.hasPrevious()}" class="page-item">
-            <a class="page-link"
-               th:href="@{/sell/divide/{id}/(id=${divide_id},page=${products.number - 1})}"><b>Previous</b></a>
-        </li>
-        <li th:if="${!products.hasPrevious()}" class="page-item disabled">
-            <a class="page-link">Previous</a>
-        </li>
+            <li th:if="${products.hasNext()}" class="page-item">
+                <a class="page-link" th:href="@{'/sell/home'(page=${products.number + 1},search=${search})}"><b>Trang
+                    sau</b></a>
+            </li>
+            <li th:if="${!products.hasNext()}" class="page-item disabled">
+                <a class="page-link">Trang sau</a>
+            </li>
+        </ul>
+        <ul class="pagination" th:if="${divide_id}">
+            <li th:if="${products.hasPrevious()}" class="page-item">
+                <a class="page-link"
+                   th:href="@{/sell/divide/{id}/(id=${divide_id},page=${products.number - 1})}"><b>Trang trước</b></a>
+            </li>
+            <li th:if="${!products.hasPrevious()}" class="page-item disabled">
+                <a class="page-link">Trang trước</a>
+            </li>
 
-        <li class="page-item active">
+            <li class="page-item active">
               <span class="page-link" th:text="${products.number + 1}+'/'+${products.totalPages}">
                 <span class="sr-only">(current)</span>
               </span>
-        </li>
+            </li>
 
-        <li th:if="${products.hasNext()}" class="page-item">
-            <a class="page-link"
-               th:href="@{/sell/divide/{id}/(id=${divide_id},page=${products.number + 1})}"><b>Next</b></a>
-        </li>
-        <li th:if="${!products.hasNext()}" class="page-item disabled">
-            <a class="page-link">Next</a>
-        </li>
-    </ul>
-</nav>
-<footer class="container-fluid text-center">
-    <label>Online Store Copyright</label>
-    <p> CÔNG TY LIÊN DOANH TNHH VIỆT NAM<br>
-        Số 292 Bà Triệu, P. Lê Đại Hành, Q. Hai Bà Trưng, TP. Hà Nội.<br>
-        Điện thoại: (028) 1232456<br>
-        Email: lienhe@lamthon.com.vn<br>
-        Mã số thuế: 0123456789<br>
-        Ngày cấp: 29/10/1998 - Nơi cấp: Cục Thuế Thành Phố Hà Nội
-    </p>
+            <li th:if="${products.hasNext()}" class="page-item">
+                <a class="page-link"
+                   th:href="@{/sell/divide/{id}/(id=${divide_id},page=${products.number + 1})}"><b>Trang sau</b></a>
+            </li>
+            <li th:if="${!products.hasNext()}" class="page-item disabled">
+                <a class="page-link">Trang sau</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<div id="back-to-top" class="back-to-top">
+    <button onclick="window.location.href='#quay';" class="btn btn-dark" title="Back to Top"
+            style="display: block;">
+        <i class="fa fa-angle-up"></i>
+    </button>
+</div>
+<footer id="dk-footer" class="dk-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-4">
+                <div class="dk-footer-box-info">
+                    <a href="index.html" class="footer-logo">
+                        <img src="https://cdn.pixabay.com/photo/2016/11/07/13/04/yoga-1805784_960_720.png"
+                             alt="footer_logo" class="img-fluid">
+                    </a>
+                    <p class="footer-info-text" id="p">
+                        Reference site about Lorem Ipsum, giving information on its origins, as well as a random
+                        Lipsum
+                        generator.
+                    </p>
+                    <div class="footer-social-link">
+                        <h3>Follow us</h3>
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-google-plus"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-linkedin"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-instagram"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- End Social link -->
+                </div>
+                <!-- End Footer info -->
+                <div class="footer-awarad">
+                    <img src="images/icon/best.png" alt="">
+                    <p class="p">Best Design Company 2019</p>
+                </div>
+            </div>
+            <!-- End Col -->
+            <div class="col-md-12 col-lg-8">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="contact-us">
+                            <div class="contact-icon">
+                                <i class="fa fa-map-o" aria-hidden="true"></i>
+                            </div>
+                            <!-- End contact Icon -->
+                            <div class="contact-info">
+                                <h3>Jaipur India</h3>
+                                <p class="p">5353 Road Avenue</p>
+                            </div>
+                            <!-- End Contact Info -->
+                        </div>
+                        <!-- End Contact Us -->
+                    </div>
+                    <!-- End Col -->
+                    <div class="col-md-6">
+                        <div class="contact-us contact-us-last">
+                            <div class="contact-icon">
+                                <i class="fa fa-volume-control-phone" aria-hidden="true"></i>
+                            </div>
+                            <!-- End contact Icon -->
+                            <div class="contact-info">
+                                <h3>95 711 9 5353</h3>
+                                <p class="p">Give us a call</p>
+                            </div>
+                            <!-- End Contact Info -->
+                        </div>
+                        <!-- End Contact Us -->
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Contact Row -->
+                <div class="row">
+                    <div class="col-md-12 col-lg-6">
+                        <div class="footer-widget footer-left-widget">
+                            <div class="section-heading">
+                                <h3>Useful Links</h3>
+                                <span class="animate-border border-black"></span>
+                            </div>
+                            <ul>
+                                <li>
+                                    <a href="#">About us</a>
+                                </li>
+                                <li>
+                                    <a href="#">Services</a>
+                                </li>
+                                <li>
+                                    <a href="#">Projects</a>
+                                </li>
+                                <li>
+                                    <a href="#">Our Team</a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <a href="#">Contact us</a>
+                                </li>
+                                <li>
+                                    <a href="#">Blog</a>
+                                </li>
+                                <li>
+                                    <a href="#">Testimonials</a>
+                                </li>
+                                <li>
+                                    <a href="#">Faq</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- End Footer Widget -->
+                    </div>
+                    <!-- End col -->
+                    <div class="col-md-12 col-lg-6">
+                        <div class="footer-widget">
+                            <div class="section-heading">
+                                <h3>Subscribe</h3>
+                                <span class="animate-border border-black"></span>
+                            </div>
+                            <p class="p"><!-- Don’t miss to subscribe to our new feeds, kindly fill the form below. -->
+                                Reference site about Lorem Ipsum, giving information on its origins, as well.</p>
+                            <form action="#">
+                                <div class="form-row">
+                                    <div class="col dk-footer-form">
+                                        <input type="email" class="form-control" placeholder="Email Address">
+                                        <button type="submit">
+                                            <i class="fa fa-send"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- End form -->
+                        </div>
+                        <!-- End footer widget -->
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+            <!-- End Col -->
+        </div>
+        <!-- End Widget Row -->
+    </div>
+    <!-- End Contact Container -->
+
+
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <span>Copyright © 2019, All Right Reserved Seobin</span>
+                </div>
+                <!-- End Col -->
+                <div class="col-md-6">
+                    <div class="copyright-menu">
+                        <ul>
+                            <li>
+                                <a href="#">Home</a>
+                            </li>
+                            <li>
+                                <a href="#">Terms</a>
+                            </li>
+                            <li>
+                                <a href="#">Privacy Policy</a>
+                            </li>
+                            <li>
+                                <a href="#">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- End col -->
+            </div>
+        </div>
+    </div>
 </footer>
 </body>
-<style>
-    #a {
-        width: 30px;
-        height: 30px;
-        background-size: cover;
-        background-position: top center;
-        border-radius: 50%;
-    }
-
-    #b {
-        position: relative;
-        top: 20px;
-        left: 30px;
-        background-size: cover;
-        background-position: top center;
-        border-radius: 50%;
-    }
-
-    body {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 12px;
-    }
-
-    .glyphicon {
-        margin-right: 5px;
-    }
-
-    .thumbnail {
-        margin-bottom: 20px;
-        padding: 0px;
-        -webkit-border-radius: 0px;
-        -moz-border-radius: 0px;
-        border-radius: 0px;
-    }
-
-    .item.list-group-item {
-        float: none;
-        width: 100%;
-        background-color: #fff;
-        margin-bottom: 10px;
-    }
-
-    .item.list-group-item:nth-of-type(odd):hover, .item.list-group-item:hover {
-        background: #428bca;
-    }
-
-    .item.list-group-item .list-group-image {
-        margin-right: 10px;
-    }
-
-    .item.list-group-item .thumbnail {
-        margin-bottom: 0px;
-    }
-
-    .item.list-group-item .caption {
-        padding: 9px 9px 0px 9px;
-    }
-
-    .item.list-group-item:nth-of-type(odd) {
-        background: #eeeeee;
-    }
-
-    .item.list-group-item:before, .item.list-group-item:after {
-        display: table;
-        content: "";
-    }
-
-    .item.list-group-item img {
-        float: left;
-    }
-
-    .item.list-group-item:after {
-        clear: both;
-    }
-
-    .list-group-item-text {
-        margin: 0 0 11px;
-    }
-
-    #c {
-        position: fixed;
-        top: 50px;
-        right: 25px;
-    }
-
-</style>
 </html>

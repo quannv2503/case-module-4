@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>id SP</th>
+        <th>Tên SP</th>
+        <th>Khách hàng</th>
+        <th>Số lượng</th>
+        <th>Số điện thoại</th>
+        <th>Địa chỉ</th>
+        <th>Xác nhận</th>
+        <th>Từ chối</th>
+    </tr>
+    <th:block th:each="book: ${books}">
+        <tr>
+            <td>1</td>
+            <td>áo dài cổ khoa</td>
+            <td>Nguyễn van quân</td>
+            <td>5</td>
+            <td>0987654321</td>
+            <td>jldjdldldld lajlafjfal lajflsfjl lajflfajl lafjlafja làlafj</td>
+            <td><a th:href="@{/sell/confirm/__${1}__ }">Xác nhận</a></td>
+            <td><a th:href="@{/sell/refuse/__${2}__ }">Từ chối</a></td>
+        </tr>
+    </th:block>
+</table>
+
+
+</body>
+<style>
+    table {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 2px solid #ddd;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #ddd;
+    }
+
+    th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>
+</html>

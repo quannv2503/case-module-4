@@ -19,11 +19,25 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "seller_id")
     private Seller seller;
+    private String active = "1"; // 1:bán(mặc định)  2:ngừng bán
 
     public Product() {
     }
 
     public Product(String name, Integer quantity, Integer discount, Double price, Category category, String description, String image, Seller seller) {
+        this.name = name;
+        this.quantity = quantity;
+        this.discount = discount;
+        this.price = price;
+        this.category = category;
+        this.description = description;
+        this.image = image;
+        this.seller = seller;
+    }
+
+
+    public Product(Long id, String name, Integer quantity, Integer discount, Double price, Category category, String description, String image, Seller seller) {
+        this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.discount = discount;
@@ -104,5 +118,13 @@ public class Product {
 
     public void setSeller(Seller seller) {
         this.seller = seller;
+    }
+
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
     }
 }

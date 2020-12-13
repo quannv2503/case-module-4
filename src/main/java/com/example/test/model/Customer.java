@@ -16,7 +16,7 @@ public class Customer {
     private String avatar;
     private String account;
     private String password;
-    private boolean active;
+    private String active ="1"; // 1:được phép hoạt động(mặc định)  2:khoá tài khoản;
 
     public Customer() {
     }
@@ -85,11 +85,11 @@ public class Customer {
         this.password = password;
     }
 
-    public boolean isActive() {
+    public String getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(String active) {
         this.active = active;
     }
 }
