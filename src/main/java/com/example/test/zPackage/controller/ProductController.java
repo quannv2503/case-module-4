@@ -2,8 +2,8 @@ package com.example.test.zPackage.controller;
 
 
 import com.example.test.model.Product;
-import com.example.test.zPackage.service.CategoryService.CategoryService;
-import com.example.test.zPackage.service.ProductService.ProductService;
+import com.example.test.zPackage.service.CategoryService.CategoryServiceZ;
+import com.example.test.zPackage.service.ProductService.ProductServiceZ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,15 +16,15 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("")
 public class ProductController {
     @Autowired
-    ProductService productService;
+    ProductServiceZ productServiceZ;
 
     @Autowired
-    CategoryService categoryService;
+    CategoryServiceZ categoryServiceZ;
 
     @GetMapping("/")
     public ModelAndView showProduct(Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("views-home/index");
-        Page<Product> products = productService.findAll(pageable);
+        Page<Product> products = productServiceZ.findAll(pageable);
 
 
 //        modelAndView.addObject()

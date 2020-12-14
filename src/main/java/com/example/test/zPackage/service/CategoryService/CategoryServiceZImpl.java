@@ -1,18 +1,18 @@
 package com.example.test.zPackage.service.CategoryService;
 
 import com.example.test.model.Category;
-import com.example.test.zPackage.repository.CategoryRepository;
+import com.example.test.zPackage.repository.CategoryRepositoryZ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceZImpl implements CategoryServiceZ {
     @Autowired
-    CategoryRepository categoryRepository;
+    CategoryRepositoryZ categoryRepositoryZ;
 
 
     @Override
     public Iterable<Category> findAll() {
-        return categoryRepository.findAll();
+        return categoryRepositoryZ.findAll();
     }
 }
