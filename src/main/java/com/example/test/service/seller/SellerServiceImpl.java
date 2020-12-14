@@ -1,7 +1,8 @@
-package com.example.test.service;
+package com.example.test.service.seller;
 
 import com.example.test.model.Seller;
 import com.example.test.repository.SellerRepository;
+import com.example.test.service.seller.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class SellerServiceImpl implements SellerService {

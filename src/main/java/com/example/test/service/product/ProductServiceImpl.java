@@ -1,9 +1,9 @@
-package com.example.test.service;
+package com.example.test.service.product;
 
 
-import com.example.test.model.OrderConfirmation;
 import com.example.test.model.Product;
 import com.example.test.repository.ProductRepository;
+import com.example.test.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

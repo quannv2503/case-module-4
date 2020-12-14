@@ -1,8 +1,8 @@
-package com.example.test.service;
+package com.example.test.service.orderConfirmtion;
 
 import com.example.test.model.OrderConfirmation;
 import com.example.test.repository.OrderConfirmationRepository;
-import com.example.test.repository.OrderDetailRepository;
+import com.example.test.service.orderConfirmtion.OrderConfirmationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class OrderConfirmationServiceImpl implements OrderConfirmationService {

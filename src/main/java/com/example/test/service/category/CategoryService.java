@@ -1,4 +1,4 @@
-package com.example.test.service;
+package com.example.test.service.category;
 
 
 import com.example.test.model.Category;

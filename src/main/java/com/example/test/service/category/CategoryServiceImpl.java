@@ -1,8 +1,9 @@
-package com.example.test.service;
+package com.example.test.service.category;
 
 
 import com.example.test.model.Category;
 import com.example.test.repository.CategoryRepository;
+import com.example.test.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 

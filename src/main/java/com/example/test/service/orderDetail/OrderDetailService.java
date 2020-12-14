@@ -1,4 +1,4 @@
-package com.example.test.service;
+package com.example.test.service.orderDetail;
 
 import com.example.test.model.Category;
 import com.example.test.model.OrderDetail;

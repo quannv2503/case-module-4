@@ -1,7 +1,11 @@
 package com.example.test.controller;
 
 import com.example.test.model.*;
-import com.example.test.service.*;
+import com.example.test.service.category.CategoryService;
+import com.example.test.service.orderConfirmtion.OrderConfirmationService;
+import com.example.test.service.orderDetail.OrderDetailService;
+import com.example.test.service.product.ProductService;
+import com.example.test.service.seller.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

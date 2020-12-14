@@ -1,10 +1,10 @@
-package com.example.test.service;
+package com.example.test.service.orderDetail;
 
 import com.example.test.model.OrderDetail;
 import com.example.test.repository.OrderDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class OrderDetailImpl implements OrderDetailService {
+public class OrderDetailServiceImpl implements OrderDetailService {
     @Autowired
     OrderDetailRepository orderDetailRepository;
 

@@ -1,4 +1,4 @@
-package com.example.test.service;
+package com.example.test.service.product;
 
 
 import com.example.test.model.OrderConfirmation;

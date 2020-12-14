@@ -1,6 +1,15 @@
 package com.example.test;
 
-import com.example.test.service.*;
+import com.example.test.service.category.CategoryService;
+import com.example.test.service.category.CategoryServiceImpl;
+import com.example.test.service.orderConfirmtion.OrderConfirmationService;
+import com.example.test.service.orderConfirmtion.OrderConfirmationServiceImpl;
+import com.example.test.service.orderDetail.OrderDetailServiceImpl;
+import com.example.test.service.orderDetail.OrderDetailService;
+import com.example.test.service.product.ProductService;
+import com.example.test.service.product.ProductServiceImpl;
+import com.example.test.service.seller.SellerService;
+import com.example.test.service.seller.SellerServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +38,7 @@ public class TestApplication {
 
     @Bean
     public OrderDetailService orderDetailService() {
-        return new OrderDetailImpl();
+        return new OrderDetailServiceImpl();
     }
 
     @Bean
