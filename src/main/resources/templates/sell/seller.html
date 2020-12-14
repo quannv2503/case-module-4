@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--<link rel="stylesheet" href="/css/sell/seller.css">-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<hr>
+<div class="container bootstrap snippet">
+    <div class="row">
+        <div class="col-sm-10"><h1 th:text="${seller.account}" style="position: relative;left: 40px;top: 30px"></h1></div>
+        <div class="col-sm-2"><a href="/sell/home" class="pull-right"><img title="profile image"
+                                                                           class="img-circle img-responsive"
+                                                                           src="https://icons.iconarchive.com/icons/dryicons/aesthetica-2/128/home-next-icon.png"></a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3"><!--left col-->
+
+
+            <div class="text-center">
+                <img th:src="@{'/img/sell/'+${seller.avatar}}" class="avatar img-circle img-thumbnail"
+                     alt="avatar">
+                <h6>Upload a different photo...</h6>
+                <input type="file" class="text-center center-block file-upload" th:value="${seller.avatar}"
+                       name="update_avt"
+                       form="registrationForm">
+            </div>
+            </hr><br>
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Website <i class="fa fa-link fa-1x"></i></div>
+                <div class="panel-body"><a href="https://www.facebook.com/">facebook.com</a></div>
+            </div>
+
+
+            <ul class="list-group">
+                <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Social Media</div>
+                <div class="panel-body">
+                    <i class="fa fa-facebook fa-2x"></i> <i class="fa fa-github fa-2x"></i> <i
+                        class="fa fa-twitter fa-2x"></i> <i class="fa fa-pinterest fa-2x"></i> <i
+                        class="fa fa-google-plus fa-2x"></i>
+                </div>
+            </div>
+
+        </div><!--/col-3-->
+        <div class="col-sm-9">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+                <li><a data-toggle="tab" href="#messages">Menu 1</a></li>
+                <li><a data-toggle="tab" href="#settings">Menu 2</a></li>
+            </ul>
+
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="home">
+                    <center><h3>Update Info</h3></center>
+                    <form class="form" action="/sell/update-seller" method="post" th:object="${seller}"
+                          id="registrationForm">
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="first_name"><h4>Name</h4></label>
+                                <input type="text" class="form-control" th:field="*{name}" id="first_name"
+                                       placeholder="name" title="enter your first name if any.">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="phone"><h4>Phone Number</h4></label>
+                                <input type="text" class="form-control" th:field="*{phoneNumber}" id="phone"
+                                       placeholder="enter phone" title="enter your phone number if any.">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="phone"><h4>Address</h4></label>
+                                <input type="text" class="form-control" th:field="*{address}" id="location"
+                                       placeholder="somewhere" title="enter a location">
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="password"><h4>Password</h4></label>
+                                <input type="password" class="form-control" name="password" id="password"
+                                       placeholder="password" title="enter your password.">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <center><h5><b style="position: relative;top:30px" th:if="${messenger}"
+                                           th:text="${messenger}"></b></h5></center>
+                        </div>
+                        <div style="display: none">
+                            <label>ẩn</label>
+                            <input type="text" class="form-control" th:field="*{id}">
+                        </div>
+                        <div style="display: none">
+                            <label>ẩn</label>
+                            <input type="text" class="form-control" th:field="*{account}">
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <br>
+                                <button class="btn btn-lg btn-success" type="submit"><i
+                                        class="glyphicon glyphicon-ok-sign"></i> Save
+                                </button>
+                                <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+
+                </div><!--/tab-pane-->
+                <div style="">
+                    <center><h3>Change Password</h3></center>
+                    <form class="form" action="/sell/change-password" method="post">
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="password"><h4>Password</h4></label>
+                                <input type="password" class="form-control" name="password"
+                                       placeholder="password" title="enter your password.">
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="password"><h4>New Password</h4></label>
+                                <input type="password" class="form-control" name="newPassword"
+                                       placeholder="new password" title="enter your password.">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <center><h5><b style="position: relative;top:30px" th:if="${messenger2}"
+                                           th:text="${messenger2}"></b></h5></center>
+                        </div>
+                        <div class="form-group">
+                            <center><h5><b style="position: relative;top:30px" th:if="${messenger3}"
+                                           th:text="${messenger3}"></b></h5></center>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <br>
+                                <button class="btn btn-lg btn-success" type="submit"><i
+                                        class="glyphicon glyphicon-ok-sign"></i>Change
+                                </button>
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div><!--/tab-pane-->
+    </div><!--/tab-content-->
+
+</div><!--/col-9-->
+
+
+</body>
+<script>
+    $(document).ready(function () {
+
+
+        var readURL = function (input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.avatar').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+        $(".file-upload").on('change', function () {
+            readURL(this);
+        });
+    });
+</script>
+</html>

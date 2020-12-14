@@ -1,14 +1,12 @@
 package com.example.test.controller;
 
 import com.example.test.model.*;
-import com.example.test.service.CategoryService;
-import com.example.test.service.OrderDetailService;
-import com.example.test.service.ProductService;
-import com.example.test.service.SellerService;
+import com.example.test.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -29,6 +27,8 @@ public class SellController {
     ProductService productService;
     @Autowired
     SellerService sellerService;
+    @Autowired
+    OrderConfirmationService orderConfirmationService;
 
     @GetMapping(value = "/home")
     public ModelAndView show(@RequestParam("search") Optional<String> search, Pageable pageable, @SessionAttribute(value = "seller-session") Seller se) {
@@ -41,9 +41,12 @@ public class SellController {
         } else {
             products = productService.list(se.getId(), "1", pageable);
         }
-//        modelAndView.addObject("seller_id",se.getId());
+        List<OrderConfirmation> orderConfirmations = (List<OrderConfirmation>) orderConfirmationService.listOrderConfirmation(se.getId());
+        modelAndView.addObject("orderConfirmationLength", orderConfirmations.size());
         modelAndView.addObject("p", new Product());
         modelAndView.addObject("products", products);
+        modelAndView.addObject("seller", sellerService.findById(se.getId()));
+
         return modelAndView;
     }
 
@@ -58,10 +61,13 @@ public class SellController {
     @GetMapping(value = "/divide/{id}")
     public ModelAndView divide(@PathVariable(value = "id") Long id, Pageable pageable, @SessionAttribute(value = "seller-session") Seller se) {
         ModelAndView modelAndView = new ModelAndView("sell/list");
+        List<OrderConfirmation> orderConfirmations = (List<OrderConfirmation>) orderConfirmationService.listOrderConfirmation(se.getId());
         Page<Product> products = productService.listDivide(id, se.getId(), "1", pageable);
         modelAndView.addObject("p", new Product());
         modelAndView.addObject("products", products);
         modelAndView.addObject("divide_id", id);
+        modelAndView.addObject("orderConfirmationLength", orderConfirmations.size());
+        modelAndView.addObject("seller", sellerService.findById(se.getId()));
         return modelAndView;
     }
 
@@ -69,9 +75,6 @@ public class SellController {
     public ModelAndView login(@ModelAttribute("message") String message,
                               HttpServletResponse response, HttpServletRequest request, @ModelAttribute("seller-session") Seller se) {
         ModelAndView modelAndView = new ModelAndView("sell/login");
-//        Long i= Long.valueOf(1);
-//        List<OrderConfirmation> list= (List<OrderConfirmation>) productService.listOrderConfirmation(i);
-//        System.out.println("kkkkkkk"+list.get(0).getAddress());
         Cookie[] cookies = request.getCookies();
         //iterate each cookie
         for (Cookie ck : cookies) {
@@ -110,6 +113,7 @@ public class SellController {
     @GetMapping(value = "/logup")
     public ModelAndView logup() {
         ModelAndView modelAndView = new ModelAndView("sell/logup");
+        modelAndView.addObject("seller", new Seller());
         return modelAndView;
     }
 
@@ -180,17 +184,11 @@ public class SellController {
     }
 
     @GetMapping(value = "/order-confirm")
-    public ModelAndView orderConfirm() {
+    public ModelAndView orderConfirm(@ModelAttribute("seller-session") Seller se) {
         ModelAndView modelAndView = new ModelAndView("sell/order-confirmation");
-        Product product = new Product();
-        List<Product> products = new ArrayList<>();
-        products.add(product);
-        products.add(product);
-        products.add(product);
-        products.add(product);
-        products.add(product);
-        products.add(product);
-        modelAndView.addObject("books", products);
+        List<OrderConfirmation> orderConfirmations = (List<OrderConfirmation>) orderConfirmationService.listOrderConfirmation(se.getId());
+        modelAndView.addObject("orderConfirmationLength", orderConfirmations.size());
+        modelAndView.addObject("orderConfirmations", orderConfirmations);
         return modelAndView;
     }
 
@@ -212,4 +210,56 @@ public class SellController {
         orderDetailService.save(orderDetail);
         return "redirect:/sell/order-confirm";
     }
+
+    @GetMapping(value = "/confirm-all")
+    public String confirmAll(@ModelAttribute("seller-session") Seller se) {
+        List<OrderConfirmation> orderConfirmations = (List<OrderConfirmation>) orderConfirmationService.listOrderConfirmation(se.getId());
+        for (int i = 0; i < orderConfirmations.size(); i++) {
+            OrderDetail orderDetail = orderDetailService.findOrderDetailById(orderConfirmations.get(i).getId());
+            orderDetail.setStatus("2");
+            orderDetailService.save(orderDetail);
+        }
+        return "redirect:/sell/order-confirm";
+    }
+
+    @GetMapping(value = "/seller")
+    public String seller(Model model, @ModelAttribute("seller-session") Seller se) {
+        Seller seller = sellerService.findById(se.getId());
+        model.addAttribute("seller", seller);
+        return "sell/seller";
+    }
+
+    @PostMapping(value = "/update-seller")
+    public String updateSeller(Model model, @ModelAttribute("seller") Seller sellerNew, @RequestParam("update_avt")
+            String update_avt, @ModelAttribute("seller-session") Seller se) {
+        Seller sellerOld = sellerService.findById(se.getId());
+        if (sellerOld.getPassword().equals(sellerNew.getPassword())) {
+            sellerNew.setAvatar(update_avt);
+            sellerService.save(sellerNew);
+            model.addAttribute("seller", sellerNew);
+        } else {
+            model.addAttribute("messenger", "Mật khẩu sai");
+            model.addAttribute("seller", sellerOld);
+        }
+
+        return "sell/seller";
+    }
+
+    @PostMapping(value = "/change-password")
+    public String changePassword(Model model, @ModelAttribute("seller-session") Seller se, @RequestParam("password") String
+            password, @RequestParam("newPassword") String newPassword) {
+        Seller sellerOld = sellerService.findById(se.getId());
+        if ((!sellerOld.getPassword().equals(password)) || (password.equals(newPassword))) {
+            model.addAttribute("messenger2", "Không thành công");
+            model.addAttribute("seller", sellerOld);
+        } else {
+            sellerOld.setPassword(newPassword);
+            sellerService.save(sellerOld);
+            model.addAttribute("messenger3", "Đổi thành công");
+            model.addAttribute("seller", sellerOld);
+        }
+
+        return "sell/seller";
+    }
+
 }

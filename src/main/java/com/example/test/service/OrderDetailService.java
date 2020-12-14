@@ -7,5 +7,6 @@ public interface OrderDetailService {
     Iterable<OrderDetail> list();
 
     OrderDetail findOrderDetailById(Long id);
+
     void save(OrderDetail orderDetail);
 }

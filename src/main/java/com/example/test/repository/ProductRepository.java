@@ -16,6 +16,4 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
 
     Page<Product> findProductsBySellerIdAndActiveIs(Long id, String active, Pageable pageable);
 
-    @Query(value = "CALL listOrder(?1);", nativeQuery = true)
-    public Iterable<OrderConfirmation> listOrderConfirmation(Long id);
 }

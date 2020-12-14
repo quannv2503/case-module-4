@@ -21,12 +21,20 @@ public class TestApplication {
     public ProductService serviceProduct() {
         return new ProductServiceImpl();
     }
+
     @Bean
-    public SellerService sellerService(){
+    public SellerService sellerService() {
         return new SellerServiceImpl();
     }
+
     @Bean
-    public OrderDetailService orderDetailService(){
+    public OrderDetailService orderDetailService() {
         return new OrderDetailImpl();
     }
+
+    @Bean
+    public OrderConfirmationService orderConfirmationService() {
+        return new OrderConfirmationServiceImpl();
+    }
+
 }

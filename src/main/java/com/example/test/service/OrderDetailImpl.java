@@ -22,4 +22,5 @@ public class OrderDetailImpl implements OrderDetailService {
     public void save(OrderDetail orderDetail) {
         orderDetailRepository.save(orderDetail);
     }
+
 }

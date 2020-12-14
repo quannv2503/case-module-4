@@ -43,8 +43,4 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findProductsByNameContainingAndSeller_IdAndActiveIs(name, id, active, pageable);
     }
 
-    @Override
-    public Iterable<OrderConfirmation> listOrderConfirmation(Long id) {
-        return productRepository.listOrderConfirmation(id);
-    }
 }

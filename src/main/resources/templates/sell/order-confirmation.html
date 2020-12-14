@@ -4,33 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
 </head>
 <body>
-<table>
-    <tr>
-        <th>id SP</th>
-        <th>Tên SP</th>
-        <th>Khách hàng</th>
-        <th>Số lượng</th>
-        <th>Số điện thoại</th>
-        <th>Địa chỉ</th>
-        <th>Xác nhận</th>
-        <th>Từ chối</th>
-    </tr>
-    <th:block th:each="book: ${books}">
-        <tr>
-            <td>1</td>
-            <td>áo dài cổ khoa</td>
-            <td>Nguyễn van quân</td>
-            <td>5</td>
-            <td>0987654321</td>
-            <td>jldjdldldld lajlafjfal lajflsfjl lajflfajl lafjlafja làlafj</td>
-            <td><a th:href="@{/sell/confirm/__${1}__ }">Xác nhận</a></td>
-            <td><a th:href="@{/sell/refuse/__${2}__ }">Từ chối</a></td>
-        </tr>
-    </th:block>
-</table>
+<center><h2>Danh sách thông tin về đơn hàng</h2></center>
+<a type="submit" class="btn btn-danger" th:href="@{/sell/home}">Quay lại</a>
 
+<br>
+<div th:if="${orderConfirmationLength==0}">
+    <center><h3>Không có đơn hàng nào</h3></center>
+</div>
+<div th:if="${orderConfirmationLength!=0}">
+    <a href="/sell/confirm-all" style="float: right" type="button" class="btn btn-info">Xác nhận tất cả đơn hàng</a>
+    <table>
+        <tr>
+            <th>id SP</th>
+            <th>Tên SP</th>
+            <th>Khách hàng</th>
+            <th>Số lượng</th>
+            <th>Số điện thoại</th>
+            <th>Địa chỉ</th>
+            <th>Xác nhận</th>
+            <th>Từ chối</th>
+        </tr>
+        <th:block th:each="orderConfirmation: ${orderConfirmations}">
+            <tr>
+                <td th:text="${orderConfirmation.id_sp}"></td>
+                <td th:text="${orderConfirmation.name_sp}"></td>
+                <td th:text="${orderConfirmation.name_customer}"></td>
+                <td th:text="${orderConfirmation.quantityBy}"></td>
+                <td th:text="${orderConfirmation.phoneNumber}"></td>
+                <td th:text="${orderConfirmation.address}"></td>
+                <td><a th:href="@{/sell/confirm/__${orderConfirmation.id}__ }">Xác nhận</a></td>
+                <td><a th:href="@{/sell/refuse/__${orderConfirmation.id}__ }">Từ chối</a></td>
+            </tr>
+        </th:block>
+    </table>
+</div>
 
 </body>
 <style>
