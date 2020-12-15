@@ -15,5 +15,5 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
     Page<Product> findProductsByNameContainingAndSeller_IdAndActiveIs(String name, Long id, String active, Pageable pageable);
 
     Page<Product> findProductsBySellerIdAndActiveIs(Long id, String active, Pageable pageable);
-
+    Iterable<Product> findProductsBySellerIdAndActiveIs(Long id,String active);
 }

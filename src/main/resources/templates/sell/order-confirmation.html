@@ -5,44 +5,147 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
 <center><h2>Danh sách thông tin về đơn hàng</h2></center>
 <a type="submit" class="btn btn-danger" th:href="@{/sell/home}">Quay lại</a>
+<div class="container">
+    <br>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="tab-bootstrap" data-toggle="tab"
+               href="#wait"
+               role="tab" aria-controls="content-bootstrap" aria-selected="true">
+                Chờ xác nhận
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab-css" data-toggle="tab"
+               href="#confirm"
+               role="tab" aria-controls="content-css" aria-selected="false">
+                Đã xác nhận
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab-javascript" data-toggle="tab"
+               href="#cancel"
+               role="tab" aria-controls="content-javascript" aria-selected="false">
+                Đơn huỷ
+            </a>
+        </li>
+    </ul>
 
-<br>
-<div th:if="${orderConfirmationLength==0}">
-    <center><h3>Không có đơn hàng nào</h3></center>
-</div>
-<div th:if="${orderConfirmationLength!=0}">
-    <a href="/sell/confirm-all" style="float: right" type="button" class="btn btn-info">Xác nhận tất cả đơn hàng</a>
-    <table>
-        <tr>
-            <th>id SP</th>
-            <th>Tên SP</th>
-            <th>Khách hàng</th>
-            <th>Số lượng</th>
-            <th>Số điện thoại</th>
-            <th>Địa chỉ</th>
-            <th>Xác nhận</th>
-            <th>Từ chối</th>
-        </tr>
-        <th:block th:each="orderConfirmation: ${orderConfirmations}">
-            <tr>
-                <td th:text="${orderConfirmation.id_sp}"></td>
-                <td th:text="${orderConfirmation.name_sp}"></td>
-                <td th:text="${orderConfirmation.name_customer}"></td>
-                <td th:text="${orderConfirmation.quantityBy}"></td>
-                <td th:text="${orderConfirmation.phoneNumber}"></td>
-                <td th:text="${orderConfirmation.address}"></td>
-                <td><a th:href="@{/sell/confirm/__${orderConfirmation.id}__ }">Xác nhận</a></td>
-                <td><a th:href="@{/sell/refuse/__${orderConfirmation.id}__ }">Từ chối</a></td>
-            </tr>
-        </th:block>
-    </table>
-</div>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="wait"
+             role="tabpanel" aria-labelledby="tab-javascript">
+            <div>
+                <div th:if="${listOrderWait.size()==0}">
+                    <center><h3>Không có đơn hàng nào</h3></center>
+                </div>
+                <div th:if="${listOrderWait.size()!=0}">
+                    <a href="/sell/confirm-all" style="float: right" type="button" class="btn btn-info">Xác nhận tất cả
+                        đơn
+                        hàng</a>
+                    <table>
+                        <tr>
+                            <th>id SP</th>
+                            <th>Tên SP</th>
+                            <th>Khách hàng</th>
+                            <th>Số lượng</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
+                            <th>Xác nhận</th>
+                            <th>Từ chối</th>
+                        </tr>
+                        <th:block th:each="OrderWait: ${listOrderWait}">
+                            <tr>
+                                <td th:text="${OrderWait.id_sp}"></td>
+                                <td th:text="${OrderWait.name_sp}"></td>
+                                <td th:text="${OrderWait.name_customer}"></td>
+                                <td th:text="${OrderWait.quantityBy}"></td>
+                                <td th:text="${OrderWait.phoneNumber}"></td>
+                                <td th:text="${OrderWait.address}"></td>
+                                <td><a th:href="@{/sell/confirm/__${OrderWait.id}__ }">Xác nhận</a></td>
+                                <td><a th:href="@{/sell/refuse/__${OrderWait.id}__ }">Từ chối</a></td>
+                            </tr>
+                        </th:block>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="confirm"
+             role="tabpanel" aria-labelledby="tab-css">
+            <div>
+                <div th:if="${listOrderConfirmed.size()==0}">
+                    <center><h3>Không có đơn hàng nào</h3></center>
+                </div>
+                <div th:if="${listOrderConfirmed.size()!=0}">
 
+                    <table>
+                        <tr>
+                            <th>id SP</th>
+                            <th>Tên SP</th>
+                            <th>Khách hàng</th>
+                            <th>Số lượng</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
+                        </tr>
+                        <th:block th:each="OrderConfirmed: ${listOrderConfirmed}">
+                            <tr>
+                                <td th:text="${OrderConfirmed.id_sp}"></td>
+                                <td th:text="${OrderConfirmed.name_sp}"></td>
+                                <td th:text="${OrderConfirmed.name_customer}"></td>
+                                <td th:text="${OrderConfirmed.quantityBy}"></td>
+                                <td th:text="${OrderConfirmed.phoneNumber}"></td>
+                                <td th:text="${OrderConfirmed.address}"></td>
+                            </tr>
+                        </th:block>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="cancel"
+             role="tabpanel" aria-labelledby="tab-bootstrap">
+            <div>
+                <div th:if="${listOrderRefuse.size()==0}">
+                    <center><h3>Không có đơn hàng nào</h3></center>
+                </div>
+                <div th:if="${listOrderRefuse.size()!=0}">
+                    <table>
+                        <tr>
+                            <th>id SP</th>
+                            <th>Tên SP</th>
+                            <th>Khách hàng</th>
+                            <th>Số lượng</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
+                        </tr>
+                        <th:block th:each="OrderRefuse: ${listOrderRefuse}">
+                            <tr>
+                                <td th:text="${OrderRefuse.id_sp}"></td>
+                                <td th:text="${OrderRefuse.name_sp}"></td>
+                                <td th:text="${OrderRefuse.name_customer}"></td>
+                                <td th:text="${OrderRefuse.quantityBy}"></td>
+                                <td th:text="${OrderRefuse.phoneNumber}"></td>
+                                <td th:text="${OrderRefuse.address}"></td>
+                            </tr>
+                        </th:block>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <style>
     table {

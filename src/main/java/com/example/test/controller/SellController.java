@@ -44,8 +44,6 @@ public class SellController {
         } else {
             products = productService.list(se.getId(), "1", pageable);
         }
-        List<OrderConfirmation> orderConfirmations = (List<OrderConfirmation>) orderConfirmationService.listOrderConfirmation(se.getId());
-        modelAndView.addObject("orderConfirmationLength", orderConfirmations.size());
         modelAndView.addObject("p", new Product());
         modelAndView.addObject("products", products);
         modelAndView.addObject("seller", sellerService.findById(se.getId()));
@@ -64,12 +62,10 @@ public class SellController {
     @GetMapping(value = "/divide/{id}")
     public ModelAndView divide(@PathVariable(value = "id") Long id, Pageable pageable, @SessionAttribute(value = "seller-session") Seller se) {
         ModelAndView modelAndView = new ModelAndView("sell/list");
-        List<OrderConfirmation> orderConfirmations = (List<OrderConfirmation>) orderConfirmationService.listOrderConfirmation(se.getId());
         Page<Product> products = productService.listDivide(id, se.getId(), "1", pageable);
         modelAndView.addObject("p", new Product());
         modelAndView.addObject("products", products);
         modelAndView.addObject("divide_id", id);
-        modelAndView.addObject("orderConfirmationLength", orderConfirmations.size());
         modelAndView.addObject("seller", sellerService.findById(se.getId()));
         return modelAndView;
     }
@@ -189,9 +185,12 @@ public class SellController {
     @GetMapping(value = "/order-confirm")
     public ModelAndView orderConfirm(@ModelAttribute("seller-session") Seller se) {
         ModelAndView modelAndView = new ModelAndView("sell/order-confirmation");
-        List<OrderConfirmation> orderConfirmations = (List<OrderConfirmation>) orderConfirmationService.listOrderConfirmation(se.getId());
-        modelAndView.addObject("orderConfirmationLength", orderConfirmations.size());
-        modelAndView.addObject("orderConfirmations", orderConfirmations);
+        List<OrderConfirmation> listOrderWait = (List<OrderConfirmation>) orderConfirmationService.listOrderWait(se.getId());
+        modelAndView.addObject("listOrderWait", listOrderWait);
+        List<OrderConfirmation> listOrderConfirmed = (List<OrderConfirmation>) orderConfirmationService.listOrderConfirmed(se.getId());
+        modelAndView.addObject("listOrderConfirmed", listOrderConfirmed);
+        List<OrderConfirmation> listOrderRefuse = (List<OrderConfirmation>) orderConfirmationService.listOrderRefuse(se.getId());
+        modelAndView.addObject("listOrderRefuse", listOrderRefuse);
         return modelAndView;
     }
 
@@ -216,9 +215,9 @@ public class SellController {
 
     @GetMapping(value = "/confirm-all")
     public String confirmAll(@ModelAttribute("seller-session") Seller se) {
-        List<OrderConfirmation> orderConfirmations = (List<OrderConfirmation>) orderConfirmationService.listOrderConfirmation(se.getId());
-        for (int i = 0; i < orderConfirmations.size(); i++) {
-            OrderDetail orderDetail = orderDetailService.findOrderDetailById(orderConfirmations.get(i).getId());
+        List<OrderConfirmation> listOrderWait = (List<OrderConfirmation>) orderConfirmationService.listOrderWait(se.getId());
+        for (int i = 0; i < listOrderWait.size(); i++) {
+            OrderDetail orderDetail = orderDetailService.findOrderDetailById(listOrderWait.get(i).getId());
             orderDetail.setStatus("2");
             orderDetailService.save(orderDetail);
         }
@@ -264,5 +263,30 @@ public class SellController {
 
         return "sell/seller";
     }
+
+    @GetMapping(value = "/list-product")
+    public ModelAndView listStoppedSelling(@ModelAttribute("seller-session") Seller se) {
+        ModelAndView modelAndView = new ModelAndView("/sell/list-product");
+//        List<Product> allProduct=productService.
+        List<Product> listStoppedSelling = (List<Product>) productService.listStoppedSelling(se.getId(), "2");
+        modelAndView.addObject("listStoppedSell", listStoppedSelling);
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/list-stopped/{id}")
+    public ModelAndView listStopped(@PathVariable("id") Long id) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/sell/list-product");
+        Product product = productService.findProduct(id);
+        product.setActive("1");
+        productService.save(product);
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/product-statistics")
+    public String producSstatistics(@ModelAttribute("seller-session") Seller se) {
+
+        return "/sell/product-statistics";
+    }
+
 
 }

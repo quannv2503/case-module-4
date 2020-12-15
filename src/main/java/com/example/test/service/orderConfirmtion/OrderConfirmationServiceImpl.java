@@ -10,7 +10,22 @@ public class OrderConfirmationServiceImpl implements OrderConfirmationService {
     OrderConfirmationRepository orderConfirmationRepository;
 
     @Override
-    public Iterable<OrderConfirmation> listOrderConfirmation(Long id) {
-        return orderConfirmationRepository.listOrderConfirmation(id);
+    public Iterable<OrderConfirmation> listOrderWait(Long id) {
+        return orderConfirmationRepository.listOrderWait(id);
     }
+
+    @Override
+    public void save(Iterable<OrderConfirmation> orderConfirmations) {
+        orderConfirmationRepository.saveAll(orderConfirmations);
+    }
+    @Override
+    public Iterable<OrderConfirmation> listOrderConfirmed(Long id) {
+        return orderConfirmationRepository.listOrderConfirmed(id);
+    }
+    @Override
+    public Iterable<OrderConfirmation> listOrderRefuse(Long id) {
+        return orderConfirmationRepository.listOrderRefuse(id);
+    }
+
+
 }

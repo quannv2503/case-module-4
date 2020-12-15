@@ -41,15 +41,41 @@
                     <button type="submit" class="btn btn-outline-danger"><i class="fa fa-search">Tìm kiếm</i></button>
                 </form>
             </div>
-            <div class="col-sm-3">
-                <form method="get" action="/sell/order-confirm" style="position: absolute;top: 20px">
-                    <button type="submit" class="btn btn-outline-danger" style="border: #B7242A solid 2px">
-                        Xác nhận đơn hàng
-                        <i class="fa fa-shopping-cart"><b style="color:black ;font-size: 150%" th:text="${orderConfirmationLength}"> </b></i>
-                    </button>
-                </form>
+            <div class="col-sm-2">
             </div>
-            <div class="col-sm-3">.col-sm-3</div>
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-2">
+                <li class="nav-item dropdown" style="position: absolute;top: 20px">
+                    <a class="nav-link" href="#" id="navbarDropdown">
+                        <div class="btn btn-light">Quản lý</div>
+                    </a>
+                    <div class="dropdown-content">
+                        <a class="dropdown-item" href="#"><i><img
+                                src="https://cf.shopee.vn/file/c861c10e455548e6843428c0e2d771fd"></i>Vận chuyển</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/sell/order-confirm"><i><img
+                                src="https://cf.shopee.vn/file/f82f8ccb649afcdf4f07f1dd9c41bcb0"></i>Quản lý đơn
+                            hàng</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/sell/list-product"><i><img
+                                src="https://cf.shopee.vn/file/3fa3bdb20eb201ae3f157ee8d11a39d5"></i>Quản lý sản
+                            phẩm</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/sell/product-statistics"><i><img
+                                src="https://cf.shopee.vn/file/09759afab8ae066ca5e1630bc19133a1"></i>Dữ liệu</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#"><i><img
+                                src="https://cf.shopee.vn/file/2f9d62dd7e037c22608ac75dfb84a409"></i>Kênh Marketing</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#"><i><img
+                                src="https://cf.shopee.vn/file/f9e8756bcf783fe1783bf59577fdb263"></i>Tài chính</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+            </div>
+
             <div class="col-sm-1">
                 <div class="dropdown">
                     <button type="button" data-toggle="dropdown" id="b">
@@ -69,13 +95,14 @@
                            href="/sell/seller"
                            role="menuitem"><i
                                 class="icon fa fa-table fa-fw iconsmall" aria-hidden="true"
-                                title="Điểm"></i>Điểm</a><a class="dropdown-item"
-                                                            href="https://james.codegym.vn/message/index.php"
-                                                            role="menuitem"><i
-                            class="icon fa fa-comment fa-fw iconsmall" aria-hidden="true" title="Tin nhắn"></i>Tin
-                        nhắn</a><a class="dropdown-item" href="https://james.codegym.vn/user/preferences.php"
-                                    role="menuitem"><i class="icon fa fa-wrench fa-fw iconsmall"
-                                                       aria-hidden="true" title="Tuỳ chọn"></i>Tuỳ chọn</a>
+                                title="Điểm"></i>Điểm</a>
+                        <a class="dropdown-item"
+                           href="https://james.codegym.vn/message/index.php"
+                           role="menuitem"><i
+                                class="icon fa fa-comment fa-fw iconsmall" aria-hidden="true" title="Tin nhắn"></i>Tin
+                            nhắn</a><a class="dropdown-item" href="https://james.codegym.vn/user/preferences.php"
+                                        role="menuitem"><i class="icon fa fa-wrench fa-fw iconsmall"
+                                                           aria-hidden="true" title="Tuỳ chọn"></i>Tuỳ chọn</a>
                         <div class="dropdown-divider" role="presentation"></div>
                         <a class="dropdown-item" href="/sell/logout"
                         ><i class="icon fa fa-sign-out fa-fw iconsmall" aria-hidden="true"

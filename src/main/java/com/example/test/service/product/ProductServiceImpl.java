@@ -43,4 +43,9 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findProductsByNameContainingAndSeller_IdAndActiveIs(name, id, active, pageable);
     }
 
+    @Override
+    public Iterable<Product> listStoppedSelling(Long id, String active) {
+        return productRepository.findProductsBySellerIdAndActiveIs(id, active);
+    }
+
 }

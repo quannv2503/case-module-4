@@ -5,5 +5,10 @@ import com.example.test.repository.OrderDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public interface OrderConfirmationService {
-    Iterable<OrderConfirmation> listOrderConfirmation(Long id);
+    Iterable<OrderConfirmation> listOrderWait(Long id);
+
+    void save(Iterable<OrderConfirmation> orderConfirmations);
+    Iterable<OrderConfirmation> listOrderConfirmed(Long id);
+    Iterable<OrderConfirmation> listOrderRefuse(Long id);
+
 }

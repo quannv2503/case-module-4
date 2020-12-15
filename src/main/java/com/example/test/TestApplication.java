@@ -10,6 +10,10 @@ import com.example.test.service.product.ProductService;
 import com.example.test.service.product.ProductServiceImpl;
 import com.example.test.service.seller.SellerService;
 import com.example.test.service.seller.SellerServiceImpl;
+import com.example.test.zPackage.service.CategoryService.CategoryServiceZ;
+import com.example.test.zPackage.service.CategoryService.CategoryServiceZImpl;
+import com.example.test.zPackage.service.ProductService.ProductServiceZ;
+import com.example.test.zPackage.service.ProductService.ProductServiceZImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -46,5 +50,13 @@ public class TestApplication {
         return new OrderConfirmationServiceImpl();
     }
 
+    @Bean
+    public ProductServiceZ productServiceZ() {
+        return new ProductServiceZImpl();
+    }
 
+    @Bean
+    public CategoryServiceZ categoryServiceZ() {
+        return new CategoryServiceZImpl();
+    }
 }
