@@ -44,8 +44,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Iterable<Product> listStoppedSelling(Long id, String active) {
+    public Iterable<Product> listActiveSelling(Long id, String active) {
         return productRepository.findProductsBySellerIdAndActiveIs(id, active);
+    }
+
+    @Override
+    public Iterable<Product> listProductsBySellerId(Long id) {
+        return productRepository.findProductsBySellerId(id);
     }
 
 }

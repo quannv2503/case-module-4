@@ -8,6 +8,7 @@ public class OrderDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer quantityBuy;
+    private Integer discount;
     private Double price;
     private String status = "1"; //1 chờ,2:chấp thuận ,3:huỷ;
     @ManyToOne
@@ -20,10 +21,19 @@ public class OrderDetail {
     public OrderDetail() {
     }
 
-    public OrderDetail(Integer quantityBuy, Double price, Product product) {
+    public OrderDetail(Integer quantityBuy, Integer discount, Double price, Product product) {
         this.quantityBuy = quantityBuy;
+        this.discount = discount;
         this.price = price;
         this.product = product;
+    }
+
+    public Integer getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Integer discount) {
+        this.discount = discount;
     }
 
     public Long getId() {

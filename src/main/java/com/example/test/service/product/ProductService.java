@@ -13,5 +13,7 @@ public interface ProductService {
     Product findProduct(Long id);
     Page<Product> listDivide(Long id1,Long id2,String active,Pageable pageable);
     Page<Product> findAllByNameContaining(String name,Long id,String active,Pageable pageable);
-    Iterable<Product> listStoppedSelling(Long id,String active);
+    Iterable<Product> listActiveSelling(Long id,String active);
+    Iterable<Product> listProductsBySellerId(Long id);
+
 }

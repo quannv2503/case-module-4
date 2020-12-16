@@ -1,34 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
+<link rel="stylesheet" href="/css/sell/statistics.css">
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-        google.charts.load("current", {packages:["corechart"]});
+    <script th:inline="javascript">
+        var quan_ao = [[${quan_ao}]];
+        var tui_xach = [[${tui_xach}]];
+        var giay_dep = [[${giay_dep}]];
+        var dien_tu = [[${dien_tu}]];
+        var khac = [[${khac}]];
+        var quan_ao_2 = [[${quan_ao_2}]];
+        var tui_xach_2 = [[${tui_xach_2}]];
+        var giay_dep_2 = [[${giay_dep_2}]];
+        var dien_tu_2 = [[${dien_tu_2}]];
+        var khac_2 = [[${khac_2}]];
+        var sumQuantity = [[${sumQuantity}]];
+        var sumbycategory = [[${sumbycategory}]];
+
+
+        google.charts.load("current", {packages: ["corechart"]});
         google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(draw);
+
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
                 ['Task', 'Hours per Day'],
-                ['Work',     11],
-                ['Eat',      2],
-                ['Commute',  2],
-                ['Watch TV', 2],
-                ['Sleep',    7]
+                ['Quần áo', quan_ao],
+                ['Túi xách', tui_xach],
+                ['Giày dép', giay_dep],
+                ['Đồ đồng hồ', dien_tu],
+                ['Khác', khac]
             ]);
 
             var options = {
-                title: 'My Daily Activities',
+                title: 'Biểu đồ thể hiện số lượng sản phẩm theo loại' + '\n' + "(tổng số lượng" +
+                    " bán được:" + sumQuantity + ")",
                 is3D: true,
             };
 
             var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
             chart.draw(data, options);
         }
+
+        function draw() {
+            var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day'],
+                ['Quần áo', quan_ao_2],
+                ['Túi xách', tui_xach_2],
+                ['Giày dép', giay_dep_2],
+                ['Đồng hồ', dien_tu_2],
+                ['Khác', khac_2]
+            ]);
+
+            var options = {
+                title: 'Biểu đồ thể hiện doanh thu sản phẩm theo loại' + '\n' + "(tổng số doanh" +
+                    " thu:" + sumbycategory + ")",
+                is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart_4d'));
+            chart.draw(data, options);
+        }
     </script>
 </head>
 <body>
-<div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+<center><h2>Phân tích bán hàng</h2></center>
+<a type="submit" class="btn btn-danger" th:href="@{/sell/home}">Quay lại</a>
+
+<div class="container">
+    <br>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="tab-bootstrap" data-toggle="tab"
+               href="#wait"
+               role="tab" aria-controls="content-bootstrap" aria-selected="true">
+                Chờ xác nhận
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab-css" data-toggle="tab"
+               href="#confirm"
+               role="tab" aria-controls="content-css" aria-selected="false">
+                Đã xác nhận
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab-javascript" data-toggle="tab"
+               href="#cancel"
+               role="tab" aria-controls="content-javascript" aria-selected="false">
+                Thống kê theo sảm phẩm
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="wait"
+             role="tabpanel" aria-labelledby="tab-javascript">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div id="piechart_3d" style="width: 550px;height: 400px"></div>
+                </div>
+                <div class="col-sm-6">
+                    <div id="piechart_4d" style="width: 550px;height: 400px"></div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="confirm"
+             role="tabpanel" aria-labelledby="tab-css">
+
+
+        </div>
+        <div class="tab-pane fade" id="cancel"
+             role="tabpanel" aria-labelledby="tab-bootstrap">
+            <div>
+                <div th:if="${statisticsByProducts.size()==0}">
+                    <center><h3>Chưa bán được sảm phẩm nào</h3></center>
+                </div>
+                <div th:if="${statisticsByProducts.size()!=0}">
+                    <table>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên SP</th>
+                            <th>Giá hiện tại</th>
+                            <th>Giảm giá</th>
+                            <th>Mô tả</th>
+                            <th>Doanh thu (VN đồng)</th>
+                        </tr>
+                        <th:block th:each="Product: ${statisticsByProducts}">
+                            <tr>
+                                <td th:text="${Product.id}"></td>
+                                <td th:text="${Product.name}"></td>
+                                <td th:text="${Product.price}"></td>
+                                <td th:text="${Product.discount}"></td>
+                                <td th:text="${Product.description}"></td>
+                                <td th:text="${Product.sum}"></td>
+                            </tr>
+                        </th:block>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td th:text="'Tổng:'+${sum}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 </body>
 </html>

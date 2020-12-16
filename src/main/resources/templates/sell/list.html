@@ -31,7 +31,7 @@
             <!--    phần ảnh tải lại trang-->
             <div class="col-sm-1">
                 <a th:href="@{/sell/home}">
-                    <img src="/img/sell/logo.jpg" height="60" width="60"></a>
+                    <img src="/img/sell/logo.jpg" height="70" width="60"></a>
             </div>
             <!--        tìm kiếm-->
             <div class="col-sm-4">
@@ -78,12 +78,12 @@
 
             <div class="col-sm-1">
                 <div class="dropdown">
-                    <button type="button" data-toggle="dropdown" id="b">
+                    <a  data-toggle="dropdown" id="b">
                         <img id="a" th:src="@{'/img/sell/'+${seller.avatar}}">
-                    </button>
+                    </a>
                     <div class="dropdown-menu dropdown-menu-right" id="c">
 
-                        <a class="dropdown-item" href=""
+                        <a class="dropdown-item" href="/"
                            role="menuitem"><i
                                 class="icon fa fa-tachometer fa-fw iconsmall" aria-hidden="true"
                                 title="Nhà của tôi"></i>Trang mua hàng</a>
@@ -193,17 +193,28 @@
     <div id="products" class="row">
         <div th:each="product:${products}" class="item  col-xs-4 col-lg-3" data-tag="style1"
              style="height: 485px;width: 260px">
-            <div class="thumbnail"><img class="group list-group-image"
-                                        th:src="@{/img/sell/gai.jpg}"
-                                        alt="Sản phẩm 1" width="300" height="500">
+            <div class="thumbnail">
+                <img class="group list-group-image"
+                     th:src="@{'/img/sell/'+${product.image}}"
+                     style="width: 200px;height: 230px">
                 <div class="caption">
                     <!--                    noi dung-->
-                    <div>
-                        <h4 class="group inner list-group-item-heading" th:text="${product.name}"></h4>
-                        <p class="group inner list-group-item-text" th:text="${product.price}"></p>
+
+                    <div style=" width: 200px;height: 150px">
+                        <br>
+                        <center><h4 class="group inner list-group-item-heading"><b th:text="${product.name}"></b></h4>
+                        </center>
+                        <p>Giá đang bán:
+                            <b class="group inner list-group-item-text" th:text="${product.price}"></b></p>
+                        <p>Giá đang bán:
+                            <b class="group inner list-group-item-text" th:text="${product.price}"></b></p>
+                        <p>Giá đang bán:
+                            <b class="group inner list-group-item-text" th:text="${product.price}"></b></p>
+
+
                     </div>
                     <!--                    chỉnh sủa-->
-                    <div class="row">
+                    <div class="row" style="200px;height: 50px">
                         <div class="col-lg-6">
                             <button type="button" data-toggle="modal"
                                     class="btn btn-outline-success" th:data-target="'#'+${product.id}"><b>Chỉnh

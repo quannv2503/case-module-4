@@ -23,7 +23,7 @@
 <div class="container">
 
     <br>
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <ul class="nav nav-tabs" id="myTab" role="tablist" th:if="${active.equals('1')}">
         <li class="nav-item">
             <a class="nav-link active" id="tab-bootstrap" data-toggle="tab"
                href="#all"
@@ -46,15 +46,61 @@
             </a>
         </li>
     </ul>
+    <ul class="nav nav-tabs" id="myTab" role="tablist" th:if="${active.equals('2')}">
+        <li class="nav-item">
+            <a class="nav-link" id="tab-bootstrap" data-toggle="tab"
+               href="#all"
+               role="tab" aria-controls="content-bootstrap" aria-selected="false">
+                Tất cả sảm phẩm hiện có
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" id="tab-css" data-toggle="tab"
+               href="#onSale"
+               role="tab" aria-controls="content-css" aria-selected="true">
+                Hiện đang bán
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab-javascript" data-toggle="tab"
+               href="#stopSale"
+               role="tab" aria-controls="content-javascript" aria-selected="false">
+                Hiện ngừng bán
+            </a>
+        </li>
+    </ul>
+    <ul class="nav nav-tabs" id="myTab" role="tablist" th:if="${active.equals('3')}">
+        <li class="nav-item">
+            <a class="nav-link" id="tab-bootstrap" data-toggle="tab"
+               href="#all"
+               role="tab" aria-controls="content-bootstrap" aria-selected="false">
+                Tất cả sảm phẩm hiện có
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab-css" data-toggle="tab"
+               href="#onSale"
+               role="tab" aria-controls="content-css" aria-selected="false">
+                Hiện đang bán
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" id="tab-javascript" data-toggle="tab"
+               href="#stopSale"
+               role="tab" aria-controls="content-javascript" aria-selected="true">
+                Hiện ngừng bán
+            </a>
+        </li>
+    </ul>
 
-    <div class="tab-content" id="myTabContent">
+    <div class="tab-content" id="myTabContent" th:if="${active.equals('1')}">
         <div class="tab-pane fade show active" id="all"
              role="tabpanel" aria-labelledby="tab-javascript">
             <div>
-                <div th:if="${listStoppedSell.size()==0}">
+                <div th:if="${allProduct.size()==0}">
                     <center><h3>Không có sảm phẩm nào</h3></center>
                 </div>
-                <div th:if="${listStoppedSell.size()!=0}">
+                <div th:if="${allProduct.size()!=0}">
                     <table>
                         <tr>
                             <th>ID</th>
@@ -66,17 +112,17 @@
                             <th>Mô tả</th>
                             <th>Trạng thái</th>
                         </tr>
-                        <th:block th:each="stoppedSell: ${listStoppedSell}">
+                        <th:block th:each="product: ${allProduct}">
                             <tr>
-                                <td th:text="${stoppedSell.id}"></td>
-                                <td th:text="${stoppedSell.name}"></td>
-                                <td th:text="${stoppedSell.price}"></td>
-                                <td th:text="${stoppedSell.quantity}"></td>
-                                <td th:text="${stoppedSell.discount}"></td>
-                                <td th:text="${stoppedSell.category.name}"></td>
-                                <td th:text="${stoppedSell.description}"></td>
-                                <td th:if="${stoppedSell.active.equals('1')}">Đang bán</td>
-                                <td th:if="${stoppedSell.active.equals('2')}">Đã ngừng bán</td>
+                                <td th:text="${product.id}"></td>
+                                <td th:text="${product.name}"></td>
+                                <td th:text="${product.price}"></td>
+                                <td th:text="${product.quantity}"></td>
+                                <td th:text="${product.discount}"></td>
+                                <td th:text="${product.category.name}"></td>
+                                <td th:text="${product.description}"></td>
+                                <td th:if="${product.active.equals('1')}">Đang bán</td>
+                                <td th:if="${product.active.equals('2')}">Đã ngừng bán</td>
                             </tr>
                         </th:block>
                     </table>
@@ -86,10 +132,10 @@
         <div class="tab-pane fade" id="onSale"
              role="tabpanel" aria-labelledby="tab-css">
             <div>
-                <div th:if="${listStoppedSell.size()==0}">
+                <div th:if="${listSelling.size()==0}">
                     <center><h3>Không có sảm phẩm nào</h3></center>
                 </div>
-                <div th:if="${listStoppedSell.size()!=0}">
+                <div th:if="${listSelling.size()!=0}">
                     <table>
                         <tr>
                             <th>ID</th>
@@ -99,18 +145,18 @@
                             <th>Giảm giá</th>
                             <th>Loại</th>
                             <th>Mô tả</th>
-                            <th>Bán</th>
+                            <th>Ngừng bán</th>
                         </tr>
-                        <th:block th:each="stoppedSell: ${listStoppedSell}">
+                        <th:block th:each="productSelling: ${listSelling}">
                             <tr>
-                                <td th:text="${stoppedSell.id}"></td>
-                                <td th:text="${stoppedSell.name}"></td>
-                                <td th:text="${stoppedSell.price}"></td>
-                                <td th:text="${stoppedSell.quantity}"></td>
-                                <td th:text="${stoppedSell.discount}"></td>
-                                <td th:text="${stoppedSell.category.name}"></td>
-                                <td th:text="${stoppedSell.description}"></td>
-                                <td><a th:href="@{/sell/list-stopped/__${stoppedSell.id}__ }">Bán</a></td>
+                                <td th:text="${productSelling.id}"></td>
+                                <td th:text="${productSelling.name}"></td>
+                                <td th:text="${productSelling.price}"></td>
+                                <td th:text="${productSelling.quantity}"></td>
+                                <td th:text="${productSelling.discount}"></td>
+                                <td th:text="${productSelling.category.name}"></td>
+                                <td th:text="${productSelling.description}"></td>
+                                <td><a th:href="@{/sell/list-stopped/__${productSelling.id}__ }">Ngừng bán</a></td>
                             </tr>
                         </th:block>
                     </table>
@@ -144,7 +190,7 @@
                                 <td th:text="${stoppedSell.discount}"></td>
                                 <td th:text="${stoppedSell.category.name}"></td>
                                 <td th:text="${stoppedSell.description}"></td>
-                                <td><a th:href="@{/sell/list-stopped/__${stoppedSell.id}__ }">Bán</a></td>
+                                <td><a th:href="@{/sell/list-sell/__${stoppedSell.id}__ }">Bán</a></td>
                             </tr>
                         </th:block>
                     </table>
@@ -152,6 +198,218 @@
             </div>
         </div>
     </div>
+    <div class="tab-content" id="myTabContent" th:if="${active.equals('2')}">
+        <div class="tab-pane fade" id="all"
+             role="tabpanel" aria-labelledby="tab-javascript">
+            <div>
+                <div th:if="${allProduct.size()==0}">
+                    <center><h3>Không có sảm phẩm nào</h3></center>
+                </div>
+                <div th:if="${allProduct.size()!=0}">
+                    <table>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Số lượng kho</th>
+                            <th>Giảm giá</th>
+                            <th>Loại</th>
+                            <th>Mô tả</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                        <th:block th:each="product: ${allProduct}">
+                            <tr>
+                                <td th:text="${product.id}"></td>
+                                <td th:text="${product.name}"></td>
+                                <td th:text="${product.price}"></td>
+                                <td th:text="${product.quantity}"></td>
+                                <td th:text="${product.discount}"></td>
+                                <td th:text="${product.category.name}"></td>
+                                <td th:text="${product.description}"></td>
+                                <td th:if="${product.active.equals('1')}">Đang bán</td>
+                                <td th:if="${product.active.equals('2')}">Đã ngừng bán</td>
+                            </tr>
+                        </th:block>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade show active" id="onSale"
+             role="tabpanel" aria-labelledby="tab-css">
+            <div>
+                <div th:if="${listSelling.size()==0}">
+                    <center><h3>Không có sảm phẩm nào</h3></center>
+                </div>
+                <div th:if="${listSelling.size()!=0}">
+                    <table>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Số lượng kho</th>
+                            <th>Giảm giá</th>
+                            <th>Loại</th>
+                            <th>Mô tả</th>
+                            <th>Ngừng bán</th>
+                        </tr>
+                        <th:block th:each="productSelling: ${listSelling}">
+                            <tr>
+                                <td th:text="${productSelling.id}"></td>
+                                <td th:text="${productSelling.name}"></td>
+                                <td th:text="${productSelling.price}"></td>
+                                <td th:text="${productSelling.quantity}"></td>
+                                <td th:text="${productSelling.discount}"></td>
+                                <td th:text="${productSelling.category.name}"></td>
+                                <td th:text="${productSelling.description}"></td>
+                                <td><a th:href="@{/sell/list-stopped/__${productSelling.id}__ }">Ngừng bán</a></td>
+                            </tr>
+                        </th:block>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="stopSale"
+             role="tabpanel" aria-labelledby="tab-bootstrap">
+            <div>
+                <div th:if="${listStoppedSell.size()==0}">
+                    <center><h3>Không có sảm phẩm nào</h3></center>
+                </div>
+                <div th:if="${listStoppedSell.size()!=0}">
+                    <table>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Số lượng kho</th>
+                            <th>Giảm giá</th>
+                            <th>Loại</th>
+                            <th>Mô tả</th>
+                            <th>Bán</th>
+                        </tr>
+                        <th:block th:each="stoppedSell: ${listStoppedSell}">
+                            <tr>
+                                <td th:text="${stoppedSell.id}"></td>
+                                <td th:text="${stoppedSell.name}"></td>
+                                <td th:text="${stoppedSell.price}"></td>
+                                <td th:text="${stoppedSell.quantity}"></td>
+                                <td th:text="${stoppedSell.discount}"></td>
+                                <td th:text="${stoppedSell.category.name}"></td>
+                                <td th:text="${stoppedSell.description}"></td>
+                                <td><a th:href="@{/sell/list-sell/__${stoppedSell.id}__ }">Bán</a></td>
+                            </tr>
+                        </th:block>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-content" id="myTabContent" th:if="${active.equals('3')}">
+        <div class="tab-pane fade" id="all"
+             role="tabpanel" aria-labelledby="tab-javascript">
+            <div>
+                <div th:if="${allProduct.size()==0}">
+                    <center><h3>Không có sảm phẩm nào</h3></center>
+                </div>
+                <div th:if="${allProduct.size()!=0}">
+                    <table>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Số lượng kho</th>
+                            <th>Giảm giá</th>
+                            <th>Loại</th>
+                            <th>Mô tả</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                        <th:block th:each="product: ${allProduct}">
+                            <tr>
+                                <td th:text="${product.id}"></td>
+                                <td th:text="${product.name}"></td>
+                                <td th:text="${product.price}"></td>
+                                <td th:text="${product.quantity}"></td>
+                                <td th:text="${product.discount}"></td>
+                                <td th:text="${product.category.name}"></td>
+                                <td th:text="${product.description}"></td>
+                                <td th:if="${product.active.equals('1')}">Đang bán</td>
+                                <td th:if="${product.active.equals('2')}">Đã ngừng bán</td>
+                            </tr>
+                        </th:block>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="onSale"
+             role="tabpanel" aria-labelledby="tab-css">
+            <div>
+                <div th:if="${listSelling.size()==0}">
+                    <center><h3>Không có sảm phẩm nào</h3></center>
+                </div>
+                <div th:if="${listSelling.size()!=0}">
+                    <table>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Số lượng kho</th>
+                            <th>Giảm giá</th>
+                            <th>Loại</th>
+                            <th>Mô tả</th>
+                            <th>Ngừng bán</th>
+                        </tr>
+                        <th:block th:each="productSelling: ${listSelling}">
+                            <tr>
+                                <td th:text="${productSelling.id}"></td>
+                                <td th:text="${productSelling.name}"></td>
+                                <td th:text="${productSelling.price}"></td>
+                                <td th:text="${productSelling.quantity}"></td>
+                                <td th:text="${productSelling.discount}"></td>
+                                <td th:text="${productSelling.category.name}"></td>
+                                <td th:text="${productSelling.description}"></td>
+                                <td><a th:href="@{/sell/list-stopped/__${productSelling.id}__ }">Ngừng bán</a></td>
+                            </tr>
+                        </th:block>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade show active" id="stopSale"
+             role="tabpanel" aria-labelledby="tab-bootstrap">
+            <div>
+                <div th:if="${listStoppedSell.size()==0}">
+                    <center><h3>Không có sảm phẩm nào</h3></center>
+                </div>
+                <div th:if="${listStoppedSell.size()!=0}">
+                    <table>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Số lượng kho</th>
+                            <th>Giảm giá</th>
+                            <th>Loại</th>
+                            <th>Mô tả</th>
+                            <th>Bán</th>
+                        </tr>
+                        <th:block th:each="stoppedSell: ${listStoppedSell}">
+                            <tr>
+                                <td th:text="${stoppedSell.id}"></td>
+                                <td th:text="${stoppedSell.name}"></td>
+                                <td th:text="${stoppedSell.price}"></td>
+                                <td th:text="${stoppedSell.quantity}"></td>
+                                <td th:text="${stoppedSell.discount}"></td>
+                                <td th:text="${stoppedSell.category.name}"></td>
+                                <td th:text="${stoppedSell.description}"></td>
+                                <td><a th:href="@{/sell/list-sell/__${stoppedSell.id}__ }">Bán</a></td>
+                            </tr>
+                        </th:block>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 </div>
 
 </body>

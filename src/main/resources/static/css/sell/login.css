@@ -16,13 +16,13 @@ html, body {
     margin-top: auto;
     margin-bottom: auto;
     width: 400px;
-    background-color: rgba(67, 15, 15, 0.5) !important;
+    background-color: rgb(8, 236, 157) !important;
 }
 
 .social_icon span {
     font-size: 60px;
     margin-left: 10px;
-    color: #FFC312;
+    color: #0872e2;
 }
 
 .social_icon span:hover {
@@ -42,7 +42,7 @@ html, body {
 
 .input-group-prepend span {
     width: 50px;
-    background-color: #1d12d2;
+    background-color: #0e00ff;
     color: black;
     border: 0 !important;
 }
@@ -76,7 +76,7 @@ input:focus {
 }
 
 .links {
-    color: #f60505;
+    color: #ff0000;
 }
 
 .links a {
@@ -90,6 +90,6 @@ input:focus {
 
 #sign-up:hover,
 #sign-up:focus {
-    color: #f44336;
+    color: #ff1000;
     cursor: pointer;
 }

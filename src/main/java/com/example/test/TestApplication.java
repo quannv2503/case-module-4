@@ -10,6 +10,10 @@ import com.example.test.service.product.ProductService;
 import com.example.test.service.product.ProductServiceImpl;
 import com.example.test.service.seller.SellerService;
 import com.example.test.service.seller.SellerServiceImpl;
+import com.example.test.service.statistics.StatisticsByProductService;
+import com.example.test.service.statistics.StatisticsByProductServiceImpl;
+import com.example.test.service.statistics.StatisticsByQuantityOfCategoryService;
+import com.example.test.service.statistics.StatisticsByQuantityOfCategoryServiceImpl;
 import com.example.test.zPackage.service.CategoryService.CategoryServiceZ;
 import com.example.test.zPackage.service.CategoryService.CategoryServiceZImpl;
 import com.example.test.zPackage.service.ProductService.ProductServiceZ;
@@ -58,5 +62,15 @@ public class TestApplication {
     @Bean
     public CategoryServiceZ categoryServiceZ() {
         return new CategoryServiceZImpl();
+    }
+
+    @Bean
+    public StatisticsByProductService statisticsByProductService() {
+        return new StatisticsByProductServiceImpl();
+    }
+
+    @Bean
+    public StatisticsByQuantityOfCategoryService statisticsByQuantityOfCategoryService() {
+        return new StatisticsByQuantityOfCategoryServiceImpl();
     }
 }

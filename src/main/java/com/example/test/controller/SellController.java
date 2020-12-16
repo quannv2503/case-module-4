@@ -6,6 +6,8 @@ import com.example.test.service.orderConfirmtion.OrderConfirmationService;
 import com.example.test.service.orderDetail.OrderDetailService;
 import com.example.test.service.product.ProductService;
 import com.example.test.service.seller.SellerService;
+import com.example.test.service.statistics.StatisticsByProductService;
+import com.example.test.service.statistics.StatisticsByQuantityOfCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -265,27 +267,97 @@ public class SellController {
     }
 
     @GetMapping(value = "/list-product")
-    public ModelAndView listStoppedSelling(@ModelAttribute("seller-session") Seller se) {
+    public ModelAndView listStoppedSelling(@ModelAttribute("seller-session") Seller se, @ModelAttribute("active") String active) {
         ModelAndView modelAndView = new ModelAndView("/sell/list-product");
-//        List<Product> allProduct=productService.
-        List<Product> listStoppedSelling = (List<Product>) productService.listStoppedSelling(se.getId(), "2");
-        modelAndView.addObject("listStoppedSell", listStoppedSelling);
+        List<Product> allProduct = (List<Product>) productService.listProductsBySellerId(se.getId());
+        modelAndView.addObject("allProduct", allProduct);
+        List<Product> listStoppedSell = (List<Product>) productService.listActiveSelling(se.getId(), "2");
+        modelAndView.addObject("listStoppedSell", listStoppedSell);
+        List<Product> listSelling = (List<Product>) productService.listActiveSelling(se.getId(), "1");
+        modelAndView.addObject("listSelling", listSelling);
+        String act;
+        if (active.equals("2") || active.equals("3")) {
+            act = active;
+        } else {
+            act = "1";
+        }
+        modelAndView.addObject("active", act);
         return modelAndView;
     }
 
     @GetMapping(value = "/list-stopped/{id}")
-    public ModelAndView listStopped(@PathVariable("id") Long id) {
+    public ModelAndView listStopped(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView("redirect:/sell/list-product");
         Product product = productService.findProduct(id);
-        product.setActive("1");
+        product.setActive("2");
+        redirectAttributes.addFlashAttribute("active", "2");
         productService.save(product);
         return modelAndView;
     }
 
-    @GetMapping(value = "/product-statistics")
-    public String producSstatistics(@ModelAttribute("seller-session") Seller se) {
+    @GetMapping(value = "/list-sell/{id}")
+    public ModelAndView listSell(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/sell/list-product");
+        Product product = productService.findProduct(id);
+        product.setActive("1");
+        productService.save(product);
+        redirectAttributes.addFlashAttribute("active", "3");
+        productService.save(product);
+        return modelAndView;
+    }
 
-        return "/sell/product-statistics";
+    @Autowired
+    StatisticsByProductService statisticsByProductService;
+    @Autowired
+    StatisticsByQuantityOfCategoryService byQuantityOfCategoryService;
+
+    @GetMapping(value = "/product-statistics")
+    public ModelAndView producSstatistics(@ModelAttribute("seller-session") Seller se) {
+        ModelAndView modelAndView = new ModelAndView("/sell/product-statistics");
+        List<StatisticsByProduct> statisticsByProducts = (List<StatisticsByProduct>) statisticsByProductService.statisticsByProduct(se.getId());
+        List<StatisticsByQuantityOfCategory> quantityOfCategories = (List<StatisticsByQuantityOfCategory>) byQuantityOfCategoryService.StatisticsByQuantityOfCategory(se.getId());
+        modelAndView.addObject("quantityOfCategories", quantityOfCategories);
+        modelAndView.addObject("statisticsByProducts", statisticsByProducts);
+        int sumQuantity = 0;
+        double sumbycategory = 0;
+        for (int i = 0; i < quantityOfCategories.size(); i++) {
+            sumQuantity = sumQuantity + quantityOfCategories.get(i).getSumquantity();
+            sumbycategory = sumbycategory + quantityOfCategories.get(i).getSumbycategory();
+            if (quantityOfCategories.get(i).getId() == 1) {
+                modelAndView.addObject("quan_ao", quantityOfCategories.get(i).getSumquantity());
+                modelAndView.addObject("quan_ao_2", quantityOfCategories.get(i).getSumbycategory());
+
+            }
+            if (quantityOfCategories.get(i).getId() == 2) {
+                modelAndView.addObject("tui_xach", quantityOfCategories.get(i).getSumquantity());
+                modelAndView.addObject("tui_xach_2", quantityOfCategories.get(i).getSumbycategory());
+
+            }
+            if (quantityOfCategories.get(i).getId() == 3) {
+                modelAndView.addObject("giay_dep", quantityOfCategories.get(i).getSumquantity());
+                modelAndView.addObject("giay_dep_2", quantityOfCategories.get(i).getSumbycategory());
+
+            }
+            if (quantityOfCategories.get(i).getId() == 4) {
+                modelAndView.addObject("dien_tu", quantityOfCategories.get(i).getSumquantity());
+                modelAndView.addObject("dien_tu_2", quantityOfCategories.get(i).getSumbycategory());
+
+            }
+            if (quantityOfCategories.get(i).getId() == 5) {
+                modelAndView.addObject("khac", quantityOfCategories.get(i).getSumquantity());
+                modelAndView.addObject("khac_2", quantityOfCategories.get(i).getSumbycategory());
+
+            }
+        }
+        double sum = 0;
+        for (int i = 0; i < statisticsByProducts.size(); i++) {
+            sum = sum + statisticsByProducts.get(i).getSum();
+        }
+        modelAndView.addObject("sum", sum);
+        modelAndView.addObject("sumQuantity", sumQuantity);
+        modelAndView.addObject("sumbycategory", sumbycategory);
+
+        return modelAndView;
     }
 
 
