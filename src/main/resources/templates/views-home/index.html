@@ -18,19 +18,20 @@
         <link href="css/styles.css" rel="stylesheet" />
     </head>
     <body id="page-top">
+
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top"><img src="assets/img/logo.png" alt="" /></a>
+                <a class="navbar-brand js-scroll-trigger" href="#page-top"><img src="assets/img/navbar-logo.svg" alt="" /></a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars ml-1"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ml-auto">
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Login by Facebook</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" >Or</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Register by Email</a></li>
+                        <th:block th:each="category : ${categories}">
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" th:href="@{'#' + ${category.name}}" th:text="${category.name}"></a></li>
+                        </th:block>
                     </ul>
                 </div>
             </div>
@@ -39,113 +40,51 @@
         <!-- Masthead-->
         <header class="masthead">
             <div class="container">
-                <div class="masthead-subheading">2Q1M Fashion Shop!</div>
-                <div class="masthead-heading text-uppercase">It's Nice To Meet You C0720I1</div>
+                <div class="masthead-subheading">“Ai nói rằng tiền không thể mua hạnh phúc,chỉ đơn giản là họ không biết đi mua sắm ở đâu”</div>
+                <div class="masthead-heading text-uppercase">2Q1M Fashion Shop!</div>
                 <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#portfolio">Let choose your choice!</a>
+                <h3 class="section-subheading text-muted" ></h3>
             </div>
         </header>
 
         <!-- Portfolio Grid-->
-        <section class="page-section bg-light" id="portfolio">
-            <div class="container">
-                <div class="text-center">
-                    <h2 class="section-heading text-uppercase">sản phẩm</h2>
-                    <h3 class="section-subheading text-muted">“Ai nói rằng tiền không thể mua hạnh phúc, chỉ đơn giản là họ không biết đi mua sắm ở đâu”</h3>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4 col-sm-6 mb-4">
-                        <div class="portfolio-item">
-                            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal1">
-                                <div class="portfolio-hover">
-                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                                </div>
-                                <img class="img-fluid" src="assets/img/portfolio/01-thumbnail.jpg" alt="" />
-                            </a>
-                            <div class="portfolio-caption">
-                                <div class="portfolio-caption-heading">Threads</div>
-                                <div class="portfolio-caption-subheading text-muted">Illustration</div>
-                            </div>
-                        </div>
+        <th:block th:each="category : ${categories}">
+            <section class="page-section bg-light portfolio" th:id="${category.name}">
+                <div class="container" >
+                    <div class="text-center">
+                        <h2 class="section-heading text-uppercase" th:text="${category.name}"></h2>
+                        <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
                     </div>
-                    <div class="col-lg-4 col-sm-6 mb-4">
-                        <div class="portfolio-item">
-                            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal2">
-                                <div class="portfolio-hover">
-                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                    <div class="row text-center">
+                        <th:block th:each="product, none : ${products}">
+                            <th:block th:if="${product.category.id} == ${category.id}">
+                                <!--Product-->
+                                <div class="col-lg-4 col-sm-6 mb-4">
+                                    <div class="portfolio-item">
+                                        <a class="portfolio-link" data-toggle="modal" th:href="'#' + ${product.id}">
+                                            <div class="portfolio-hover">
+                                                <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                            </div>
+                                            <img class="img-fluid " style="width: 100%; height: 230px" th:src="@{'/img/sell/' + ${product.image}}" alt="" />
+                                        </a>
+                                        <div class="portfolio-caption">
+                                            <div class="portfolio-caption-heading" th:text="${product.name}"></div>
+                                            <div class="portfolio-caption-subheading text-muted" th:text="'Price: ' + ${product.price}"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <img class="img-fluid" src="assets/img/portfolio/02-thumbnail.jpg" alt="" />
-                            </a>
-                            <div class="portfolio-caption">
-                                <div class="portfolio-caption-heading">Explore</div>
-                                <div class="portfolio-caption-subheading text-muted">Graphic Design</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-6 mb-4">
-                        <div class="portfolio-item">
-                            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal3">
-                                <div class="portfolio-hover">
-                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                                </div>
-                                <img class="img-fluid" src="assets/img/portfolio/03-thumbnail.jpg" alt="" />
-                            </a>
-                            <div class="portfolio-caption">
-                                <div class="portfolio-caption-heading">Finish</div>
-                                <div class="portfolio-caption-subheading text-muted">Identity</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-6 mb-4">
-                        <div class="portfolio-item">
-                            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal4">
-                                <div class="portfolio-hover">
-                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                                </div>
-                                <img class="img-fluid" src="assets/img/portfolio/04-thumbnail.jpg" alt="" />
-                            </a>
-                            <div class="portfolio-caption">
-                                <div class="portfolio-caption-heading">Lines</div>
-                                <div class="portfolio-caption-subheading text-muted">Branding</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-6 mb-4">
-                        <div class="portfolio-item">
-                            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal5">
-                                <div class="portfolio-hover">
-                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                                </div>
-                                <img class="img-fluid" src="assets/img/portfolio/05-thumbnail.jpg" alt="" />
-                            </a>
-                            <div class="portfolio-caption">
-                                <div class="portfolio-caption-heading">Southwest</div>
-                                <div class="portfolio-caption-subheading text-muted">Website Design</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-6 mb-4">
-                        <div class="portfolio-item">
-                            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal6">
-                                <div class="portfolio-hover">
-                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                                </div>
-                                <img class="img-fluid" src="assets/img/portfolio/06-thumbnail.jpg" alt="" />
-                            </a>
-                            <div class="portfolio-caption">
-                                <div class="portfolio-caption-heading">Window</div>
-                                <div class="portfolio-caption-subheading text-muted">Photography</div>
-                            </div>
-                        </div>
+                            </th:block>
+                        </th:block>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </th:block>
 
         <!-- Team-->
         <section class="page-section bg-light" id="team">
             <div class="container">
                 <div class="text-center">
-                    <h2 class="section-heading text-uppercase">Triết lí của chúng tôi</h2>
+                    <h2 class="section-heading text-uppercase">About us</h2>
                     <h3 class="section-subheading text-muted">“Chúng tôi không thiết kế trang phục, chúng tôi thiết kế những giấc mơ”.</h3>
                 </div>
                 <div class="row">
@@ -219,7 +158,7 @@
                     </div>
                     <div class="text-center">
                         <div id="success"></div>
-                        <button class="btn btn-primary btn-xl text-uppercase" id="sendMessageButton" type="submit">Send Message</button>
+                        <button class="btn btn-primary btn-xl text-uppercase" id="sendMessageButton" type="submit">Đăng kí</button>
                     </div>
                 </form>
             </div>
@@ -437,5 +376,6 @@
         <script src="assets/mail/contact_me.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
+
     </body>
 </html>
