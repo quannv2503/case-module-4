@@ -24,10 +24,9 @@ public class ProductController {
     @GetMapping("/")
     public ModelAndView showProduct(Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("views-home/index");
-        Page<Product> products = productServiceZ.findAll(pageable);
-
-
+//        Page<Product> products = productServiceZ.findAll(pageable);
 //        modelAndView.addObject()
+
         return modelAndView;
     }
 

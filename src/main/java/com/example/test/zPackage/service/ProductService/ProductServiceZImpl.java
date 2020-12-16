@@ -14,8 +14,9 @@ public class ProductServiceZImpl implements ProductServiceZ {
     @Autowired
     ProductRepositoryZ productRepositoryZ;
 
-    @Override
-    public Page<Product> findAll(Pageable pageable) {
-        return productRepositoryZ.findAll(pageable);
-    }
+//    @Override
+//    public Page<Product> findAll(Pageable pageable) {
+//        return null;
+//        return productRepositoryZ.findAll(pageable);
+//    }
 }
