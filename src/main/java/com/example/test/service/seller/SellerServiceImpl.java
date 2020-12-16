@@ -23,4 +23,9 @@ public class SellerServiceImpl implements SellerService {
     public void save(Seller seller) {
         sellerRepository.save(seller);
     }
+
+    @Override
+    public Iterable<Seller> findAll() {
+        return sellerRepository.findAll();
+    }
 }

@@ -48,7 +48,7 @@
             <div class="col-sm-2">
                 <li class="nav-item dropdown" style="position: absolute;top: 20px">
                     <a class="nav-link" href="#" id="navbarDropdown">
-                        <div class="btn btn-light">Quản lý</div>
+                        <div class="btn btn-light" th:text="'  Menu   '"></div>
                     </a>
                     <div class="dropdown-content">
                         <a class="dropdown-item" href="#"><i><img
@@ -200,16 +200,18 @@
                 <div class="caption">
                     <!--                    noi dung-->
 
-                    <div style=" width: 200px;height: 150px">
+                    <div style=" width: 200px;height: 170px">
                         <br>
                         <center><h4 class="group inner list-group-item-heading"><b th:text="${product.name}"></b></h4>
                         </center>
                         <p>Giá đang bán:
                             <b class="group inner list-group-item-text" th:text="${product.price}"></b></p>
-                        <p>Giá đang bán:
-                            <b class="group inner list-group-item-text" th:text="${product.price}"></b></p>
-                        <p>Giá đang bán:
-                            <b class="group inner list-group-item-text" th:text="${product.price}"></b></p>
+                        <p>Số lượng kho:
+                            <b class="group inner list-group-item-text" th:text="${product.quantity}"></b></p>
+                        <p>Giảm giá:
+                            <b class="group inner list-group-item-text" th:text="${product.discount}"></b></p>
+                        <p>Mô tả:
+                            <b class="group inner list-group-item-text" th:text="${product.description}"></b></p>
 
 
                     </div>

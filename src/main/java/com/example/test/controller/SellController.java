@@ -73,34 +73,43 @@ public class SellController {
     }
 
     @GetMapping(value = "/login")
-    public ModelAndView login(@ModelAttribute("message") String message,
+    public ModelAndView login(@ModelAttribute("message") String message, @ModelAttribute("account") String account,
+                              @ModelAttribute("password") String password,
                               HttpServletResponse response, HttpServletRequest request, @ModelAttribute("seller-session") Seller se) {
         ModelAndView modelAndView = new ModelAndView("sell/login");
-        Cookie[] cookies = request.getCookies();
-        //iterate each cookie
-        for (Cookie ck : cookies) {
-            //display only the cookie with the name 'setUser'
-            if (ck.getName().equals("ck-id")) {
-                if (ck.getValue().equals("-1")) {
+        if (!account.equals("") && !password.equals("")) {
+            modelAndView.addObject("username", account);
+            modelAndView.addObject("password", password);
+            modelAndView.addObject("ok","Đăng kí thành công");
+            return modelAndView;
+        } else {
+
+            Cookie[] cookies = request.getCookies();
+            //iterate each cookie
+            for (Cookie ck : cookies) {
+                //display only the cookie with the name 'setUser'
+                if (ck.getName().equals("ck-id")) {
+                    if (ck.getValue().equals("-1")) {
+                        modelAndView.addObject("username", "");
+                        modelAndView.addObject("password", "");
+                        break;
+                    } else {
+                        Long id_seller = Long.valueOf(ck.getValue());
+                        Seller seller = sellerService.findById(id_seller);
+                        modelAndView.addObject("username", seller.getAccount());
+                        modelAndView.addObject("password", seller.getPassword());
+                        break;
+                    }
+                } else {
+                    ck.setValue("");
                     modelAndView.addObject("username", "");
                     modelAndView.addObject("password", "");
                     break;
-                } else {
-                    Long id_seller = Long.valueOf(ck.getValue());
-                    Seller seller = sellerService.findById(id_seller);
-                    modelAndView.addObject("username", seller.getAccount());
-                    modelAndView.addObject("password", seller.getPassword());
-                    break;
                 }
-            } else {
-                ck.setValue("");
-                modelAndView.addObject("username", "");
-                modelAndView.addObject("password", "");
-                break;
             }
+            modelAndView.addObject("message", message);
+            return modelAndView;
         }
-        modelAndView.addObject("message", message);
-        return modelAndView;
     }
 
     @GetMapping(value = "/logout")
@@ -111,12 +120,6 @@ public class SellController {
         return modelAndView;
     }
 
-    @GetMapping(value = "/logup")
-    public ModelAndView logup() {
-        ModelAndView modelAndView = new ModelAndView("sell/logup");
-        modelAndView.addObject("seller", new Seller());
-        return modelAndView;
-    }
 
     @PostMapping(value = "/edit-product")
     public String editProduct(@RequestParam("id") Long id, @RequestParam("name") String name, @RequestParam("price") Double price, @RequestParam("quantity") Integer quantity, @RequestParam("discount") Integer discount, @RequestParam("category") Long category_id, @RequestParam("description") String description, @RequestParam("image") String image, @SessionAttribute(value = "seller-session") Seller se) {
@@ -238,9 +241,15 @@ public class SellController {
             String update_avt, @ModelAttribute("seller-session") Seller se) {
         Seller sellerOld = sellerService.findById(se.getId());
         if (sellerOld.getPassword().equals(sellerNew.getPassword())) {
-            sellerNew.setAvatar(update_avt);
-            sellerService.save(sellerNew);
-            model.addAttribute("seller", sellerNew);
+            if (update_avt.length() < 3) {
+                sellerNew.setAvatar(sellerOld.getAvatar());
+                sellerService.save(sellerNew);
+                model.addAttribute("seller", sellerNew);
+            } else {
+                sellerNew.setAvatar(update_avt);
+                sellerService.save(sellerNew);
+                model.addAttribute("seller", sellerNew);
+            }
         } else {
             model.addAttribute("messenger", "Mật khẩu sai");
             model.addAttribute("seller", sellerOld);
@@ -316,6 +325,14 @@ public class SellController {
         ModelAndView modelAndView = new ModelAndView("/sell/product-statistics");
         List<StatisticsByProduct> statisticsByProducts = (List<StatisticsByProduct>) statisticsByProductService.statisticsByProduct(se.getId());
         List<StatisticsByQuantityOfCategory> quantityOfCategories = (List<StatisticsByQuantityOfCategory>) byQuantityOfCategoryService.StatisticsByQuantityOfCategory(se.getId());
+        List<OrderConfirmation> listOrderWait = (List<OrderConfirmation>) orderConfirmationService.listOrderWait(se.getId());
+        modelAndView.addObject("listOrderWait", listOrderWait.size());
+        List<OrderConfirmation> listOrderConfirmed = (List<OrderConfirmation>) orderConfirmationService.listOrderConfirmed(se.getId());
+        modelAndView.addObject("listOrderConfirmed", listOrderConfirmed.size());
+        List<OrderConfirmation> listOrderRefuse = (List<OrderConfirmation>) orderConfirmationService.listOrderRefuse(se.getId());
+        modelAndView.addObject("listOrderRefuse", listOrderRefuse.size());
+        int sumOrder = listOrderConfirmed.size() + listOrderRefuse.size() + listOrderWait.size();
+        modelAndView.addObject("sumOrder", sumOrder);
         modelAndView.addObject("quantityOfCategories", quantityOfCategories);
         modelAndView.addObject("statisticsByProducts", statisticsByProducts);
         int sumQuantity = 0;
@@ -357,6 +374,33 @@ public class SellController {
         modelAndView.addObject("sumQuantity", sumQuantity);
         modelAndView.addObject("sumbycategory", sumbycategory);
 
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/logup")
+    public ModelAndView logup() {
+        ModelAndView modelAndView = new ModelAndView("sell/logup");
+        modelAndView.addObject("seller", new Seller());
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/check-logup")
+    public ModelAndView checkLogup(@ModelAttribute("seller") Seller seller, RedirectAttributes redirectAttributes) {
+        ModelAndView modelAndView;
+        String account = seller.getAccount();
+        List<Seller> sellerList = (List<Seller>) sellerService.findAll();
+        for (int i = 0; i < sellerList.size(); i++) {
+            if (account.equals(sellerList.get(i).getAccount())) {
+                modelAndView = new ModelAndView("sell/logup");
+                modelAndView.addObject("seller", seller);
+                modelAndView.addObject("messenger", "Tài khoản đã tồn tại");
+                return modelAndView;
+            }
+        }
+        sellerService.save(seller);
+        modelAndView = new ModelAndView("redirect:/sell/login");
+        redirectAttributes.addFlashAttribute("account", account);
+        redirectAttributes.addFlashAttribute("password", seller.getPassword());
         return modelAndView;
     }
 

@@ -15,7 +15,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> list(Long id, String active, Pageable pageable) {
-        return productRepository.findProductsBySellerIdAndActiveIs(id, active, pageable);
+        return productRepository.findProductsBySellerIdAndActiveIsOrderByIdDesc(id, active, pageable);
     }
 
     @Override
@@ -35,22 +35,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> listDivide(Long id1, Long id2, String active, Pageable pageable) {
-        return productRepository.findProductsByCategoryIdAndSeller_IdAndActiveIs(id1, id2, active, pageable);
+        return productRepository.findProductsByCategoryIdAndSeller_IdAndActiveIsOrderByIdDesc(id1, id2, active, pageable);
     }
 
     @Override
     public Page<Product> findAllByNameContaining(String name, Long id, String active, Pageable pageable) {
-        return productRepository.findProductsByNameContainingAndSeller_IdAndActiveIs(name, id, active, pageable);
+        return productRepository.findProductsByNameContainingAndSeller_IdAndActiveIsOrderByIdDesc(name, id, active, pageable);
     }
 
     @Override
     public Iterable<Product> listActiveSelling(Long id, String active) {
-        return productRepository.findProductsBySellerIdAndActiveIs(id, active);
+        return productRepository.findProductsBySellerIdAndActiveIsOrderByIdAsc(id, active);
     }
 
     @Override
     public Iterable<Product> listProductsBySellerId(Long id) {
-        return productRepository.findProductsBySellerId(id);
+        return productRepository.findProductsBySellerIdOrderByIdAsc(id);
     }
 
 }

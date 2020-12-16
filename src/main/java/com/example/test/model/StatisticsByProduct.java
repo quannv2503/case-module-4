@@ -13,16 +13,18 @@ public class StatisticsByProduct {
     private Double price;
     private Integer discount;
     private String description;
+    private Integer quantity_selled;
     private Double sum;
 
     public StatisticsByProduct() {
     }
 
-    public StatisticsByProduct(Long id, String name, Double price, Integer discount, String description, Double sum) {
+    public StatisticsByProduct(Long id, String name, Double price, Integer discount, String description, Integer quantity_selled, Double sum) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.discount = discount;
+        this.quantity_selled = quantity_selled;
         this.description = description;
         this.sum = sum;
     }
@@ -41,6 +43,14 @@ public class StatisticsByProduct {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getQuantity_selled() {
+        return quantity_selled;
+    }
+
+    public void setQuantity_selled(Integer quantity_selled) {
+        this.quantity_selled = quantity_selled;
     }
 
     public Double getPrice() {
@@ -69,7 +79,8 @@ public class StatisticsByProduct {
     }
 
     public Double getSum() {
-        return sum;
+        Double s = Double.valueOf((Math.round(sum * 1000) / 1000));
+        return s;
     }
 
     public void setSum(Double sum) {
