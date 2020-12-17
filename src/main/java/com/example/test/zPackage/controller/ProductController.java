@@ -7,15 +7,19 @@ import com.example.test.model.Seller;
 import com.example.test.zPackage.service.CategoryService.CategoryServiceZ;
 import com.example.test.zPackage.service.ProductService.ProductServiceZ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
 @Controller
@@ -33,19 +37,35 @@ public class ProductController {
     }
 
     @GetMapping("/")
-    public ModelAndView showProduct(@RequestParam("search") Optional<String> s, Pageable pageable) {
-
-        Page<Product> products;
+    public ModelAndView showProduct() {
         ModelAndView modelAndView = new ModelAndView("views-home/index");
-        if (s.isPresent()) {
-            products = productServiceZ.findAllByNameContaining(s.get(), pageable);
-            modelAndView.addObject("search", s.get());
-        } else {
-            products = productServiceZ.findAll(pageable);
-        }
+        modelAndView.addObject("products",productServiceZ.findAll());
         modelAndView.addObject("categories", categories());
+        return modelAndView;
+    }
+
+    @Autowired
+    Environment env;
+
+    @GetMapping("/create")
+    public ModelAndView showCreateProduct() {
+        ModelAndView modelAndView = new ModelAndView("/product/create");
+        modelAndView.addObject("product", new Product());
+        return modelAndView;
+    }
+
+    @GetMapping
+    public ModelAndView listProducts(){
+        Iterable<Product> products = productServiceZ.findAll();
+        ModelAndView modelAndView = new ModelAndView("product/list");
         modelAndView.addObject("products", products);
         return modelAndView;
+    }
+    @GetMapping("/{id}")
+    public String viewProduct(@PathVariable Long id, Model model){
+        Product product = productServiceZ.findById(id);
+        model.addAttribute("product",product);
+        return "product/view";
     }
 
 

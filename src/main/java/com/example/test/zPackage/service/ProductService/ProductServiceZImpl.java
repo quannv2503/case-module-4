@@ -16,8 +16,8 @@ public class ProductServiceZImpl implements ProductServiceZ {
     ProductRepositoryZ productRepositoryZ;
 
     @Override
-    public Page<Product> findAll(Pageable pageable) {
-        return productRepositoryZ.findAll(pageable);
+    public Iterable<Product> findAll() {
+        return productRepositoryZ.findAll();
     }
 
     @Override
@@ -41,7 +41,7 @@ public class ProductServiceZImpl implements ProductServiceZ {
     }
 
     @Override
-    public Page<Product> findAllByNameContaining(String name, Pageable pageable) {
-        return productRepositoryZ.findAllByNameContaining(name, pageable);
+    public Iterable<Product> findAllByNameContaining(String name) {
+        return productRepositoryZ.findAllByNameContaining(name);
     }
 }

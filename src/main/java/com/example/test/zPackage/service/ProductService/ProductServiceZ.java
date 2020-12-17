@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ProductServiceZ {
 
-    Page<Product> findAll(Pageable pageable);
+    Iterable<Product> findAll();
 
     Product findById(Long id);
 
@@ -19,7 +19,7 @@ public interface ProductServiceZ {
 
     Iterable<Product> findAllByCategory(Category category);
 
-    Page<Product> findAllByNameContaining(String name, Pageable pageable);
+    Iterable<Product> findAllByNameContaining(String name);
 
 
     }
